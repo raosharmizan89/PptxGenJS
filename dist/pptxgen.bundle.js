@@ -64,8 +64,8 @@
 	<TitlesOfParts>
 		<vt:vector size="${a.length+1+2}" baseType="lpstr">
 			<vt:lpstr>Arial</vt:lpstr>
-			<vt:lpstr>Calibri</vt:lpstr>
-			<vt:lpstr>Office Theme</vt:lpstr>
+			<vt:lpstr>Arial</vt:lpstr>
+			<vt:lpstr>S-P Global EDP 2025 16-9</vt:lpstr>
 			${a.map((e,t)=>`<vt:lpstr>Slide ${t+1}</vt:lpstr>`).join("")}
 		</vt:vector>
 	</TitlesOfParts>
