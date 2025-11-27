@@ -92,6 +92,18 @@ import {
 	WriteFileProps,
 	WriteProps,
 } from './core-interfaces'
+import {
+	CUSTOM_CONTENT_TYPES_XML,
+	CUSTOM_RELS_XML,
+	CUSTOM_PROPS_APP_XML,
+	CUSTOM_PROPS_CORE_XML,
+	CUSTOM_PROPS_CUSTOM_XML,
+	CUSTOM_PPT_PRESENTATION_XML,
+	CUSTOM_PPT_PRESENTATION_RELS_XML,
+	CUSTOM_PPT_THEME1_XML,
+	CUSTOM_PPT_SLIDE_MASTER_XML,
+	CUSTOM_PPT_SLIDE_MASTER_REL_XML,
+} from './cust-xml'
 import * as genCharts from './gen-charts'
 import * as genObj from './gen-objects'
 import * as genMedia from './gen-media'
@@ -510,13 +522,14 @@ export default class PptxGenJS implements IPresentationProps {
 			zip.folder('ppt/theme')
 			zip.folder('ppt/notesMasters').folder('_rels')
 			zip.folder('ppt/notesSlides').folder('_rels')
-			zip.file('[Content_Types].xml', genXml.makeXmlContTypes(this.slides, this.slideLayouts, this.masterSlide)) // TODO: pass only `this` like below! 20200206
-			zip.file('_rels/.rels', genXml.makeXmlRootRels())
-			zip.file('docProps/app.xml', genXml.makeXmlApp(this.slides, this.company)) // TODO: pass only `this` like below! 20200206
-			zip.file('docProps/core.xml', genXml.makeXmlCore(this.title, this.subject, this.author, this.revision)) // TODO: pass only `this` like below! 20200206
-			zip.file('ppt/_rels/presentation.xml.rels', genXml.makeXmlPresentationRels(this.slides))
-			zip.file('ppt/theme/theme1.xml', genXml.makeXmlTheme(this))
-			zip.file('ppt/presentation.xml', genXml.makeXmlPresentation(this))
+			zip.file('[Content_Types].xml', CUSTOM_CONTENT_TYPES_XML) // TODO: pass only `this` like below! 20200206
+			zip.file('_rels/.rels', CUSTOM_RELS_XML)
+			zip.file('docProps/app.xml', CUSTOM_PROPS_APP_XML) // TODO: pass only `this` like below! 20200206
+			zip.file('docProps/core.xml', CUSTOM_PROPS_CORE_XML) // TODO: pass only `this` like below! 20200206
+			zip.file('docProps/custom.xml', CUSTOM_PROPS_CUSTOM_XML) // TODO: pass only `this` like below! 20200206
+			zip.file('ppt/_rels/presentation.xml.rels', CUSTOM_PPT_PRESENTATION_RELS_XML)
+			zip.file('ppt/theme/theme1.xml', CUSTOM_PPT_THEME1_XML)
+			zip.file('ppt/presentation.xml', CUSTOM_PPT_PRESENTATION_XML)
 			zip.file('ppt/presProps.xml', genXml.makeXmlPresProps())
 			zip.file('ppt/tableStyles.xml', genXml.makeXmlTableStyles())
 			zip.file('ppt/viewProps.xml', genXml.makeXmlViewProps())
@@ -533,8 +546,8 @@ export default class PptxGenJS implements IPresentationProps {
 				zip.file(`ppt/notesSlides/notesSlide${idx + 1}.xml`, genXml.makeXmlNotesSlide(slide))
 				zip.file(`ppt/notesSlides/_rels/notesSlide${idx + 1}.xml.rels`, genXml.makeXmlNotesSlideRel(idx + 1))
 			})
-			zip.file('ppt/slideMasters/slideMaster1.xml', genXml.makeXmlMaster(this.masterSlide, this.slideLayouts))
-			zip.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', genXml.makeXmlMasterRel(this.masterSlide, this.slideLayouts))
+			zip.file('ppt/slideMasters/slideMaster1.xml', CUSTOM_PPT_SLIDE_MASTER_XML)
+			zip.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', CUSTOM_PPT_SLIDE_MASTER_REL_XML)
 			zip.file('ppt/notesMasters/notesMaster1.xml', genXml.makeXmlNotesMaster())
 			zip.file('ppt/notesMasters/_rels/notesMaster1.xml.rels', genXml.makeXmlNotesMasterRel())
 
