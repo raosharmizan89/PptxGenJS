@@ -104,6 +104,7 @@ import {
 	CUSTOM_PPT_SLIDE_MASTER_XML,
 	CUSTOM_PPT_SLIDE_MASTER_REL_XML,
 } from './cust-xml'
+import { CUSTOM_PPT_SLIDE_LAYOUT1_XML, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML } from './cust-xml-slide-layout1'
 import * as genCharts from './gen-charts'
 import * as genObj from './gen-objects'
 import * as genMedia from './gen-media'
@@ -256,7 +257,7 @@ export default class PptxGenJS implements IPresentationProps {
 	}
 
 	/** slide layout definition objects, used for generating slide layout files */
-	private readonly _slideLayouts: SlideLayout[]
+	private _slideLayouts: SlideLayout[]
 	public get slideLayouts(): SlideLayout[] {
 		return this._slideLayouts
 	}
@@ -535,9 +536,15 @@ export default class PptxGenJS implements IPresentationProps {
 			zip.file('ppt/viewProps.xml', genXml.makeXmlViewProps())
 
 			// C: Create a Layout/Master/Rel/Slide file for each SlideLayout and Slide
+			// Always use the custom layout for the first slide layout
 			this.slideLayouts.forEach((layout, idx) => {
-				zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, genXml.makeXmlLayout(layout))
-				zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts))
+				if (idx === 0) {
+					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, CUSTOM_PPT_SLIDE_LAYOUT1_XML)
+					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML)
+				} else {
+					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, genXml.makeXmlLayout(layout))
+					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts))
+				}
 			})
 			this.slides.forEach((slide, idx) => {
 				zip.file(`ppt/slides/slide${idx + 1}.xml`, genXml.makeXmlSlide(slide))
@@ -672,14 +679,17 @@ export default class PptxGenJS implements IPresentationProps {
 	addSlide(options?: AddSlideProps): PresSlide {
 		// TODO: DEPRECATED: arg0 string "masterSlideName" dep as of 3.2.0
 		const masterSlideName = typeof options === 'string' ? options : options?.masterName ? options.masterName : ''
-		let slideLayout: SlideLayout = {
-			_name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
-			_presLayout: this.presLayout,
-			_rels: [],
-			_relsChart: [],
-			_relsMedia: [],
-			_slideNum: this.slides.length + 1,
-		}
+		// Default to using the first defined slide layout where possible (ensures slideLayout1 is used)
+		let slideLayout: SlideLayout = this.slideLayouts && this.slideLayouts.length > 0
+			? this.slideLayouts[0]
+			: {
+				_name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
+				_presLayout: this.presLayout,
+				_rels: [],
+				_relsChart: [],
+				_relsMedia: [],
+				_slideNum: this.slides.length + 1,
+			}
 
 		if (masterSlideName) {
 			const tmpLayout = this.slideLayouts.filter(layout => layout._name === masterSlideName)[0]
