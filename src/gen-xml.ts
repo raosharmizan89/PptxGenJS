@@ -1622,8 +1622,42 @@ export function makeXmlLayout (layout: SlideLayout): string {
  * @return {string} XML
  */
 export function makeXmlMaster (slide: PresSlide, layouts: SlideLayout[]): string {
-		// Return the custom slide master XML constant
-		return CUSTOM_PPT_SLIDE_MASTER_XML
+	// Build a slideLayoutIdLst for only the layouts present
+	let layoutIdLst = '<p:sldLayoutIdLst>'
+	for (let i = 1; i <= (layouts ? layouts.length : 0); i++) {
+		layoutIdLst += `<p:sldLayoutId id="${2147483000 + i}" r:id="rId${i}"/>`
+	}
+	layoutIdLst += '</p:sldLayoutIdLst>'
+
+	// If the custom master contains an existing <p:sldLayoutIdLst> block, replace it
+	if (CUSTOM_PPT_SLIDE_MASTER_XML.indexOf('<p:sldLayoutIdLst>') >= 0) {
+		return CUSTOM_PPT_SLIDE_MASTER_XML.replace(/<p:sldLayoutIdLst>[\s\S]*?<\/p:sldLayoutIdLst>/, layoutIdLst)
+	}
+
+	// Fallback: append layout list before hf/header/footer block
+	return CUSTOM_PPT_SLIDE_MASTER_XML.replace('</p:cSld>', `</p:cSld>${layoutIdLst}`)
+}
+
+/**
+ * Generate slide master rels dynamically based on available slide layouts
+ * @param {SlideLayout[]} slideLayouts
+ * @returns {string} XML
+ */
+export function makeXmlSlideMasterRels(slideLayouts: SlideLayout[]): string {
+    let strXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + CRLF
+    strXml += '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+
+    // Create a slideLayout relationship for each existing layout
+    for (let i = 1; i <= (slideLayouts ? slideLayouts.length : 0); i++) {
+        strXml += `<Relationship Id="rId${i}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout${i}.xml"/>`
+    }
+
+    // Add theme relationship as the next id
+    const themeId = (slideLayouts ? slideLayouts.length : 0) + 1
+    strXml += `<Relationship Id="rId${themeId}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/>`
+
+    strXml += '</Relationships>'
+    return strXml
 }
 
 /**
@@ -1782,6 +1816,62 @@ export function makeXmlPresentation (pres: IPresentationProps): string {
 
 	// Done
 	strXml += '</p:presentation>'
+	return strXml
+}
+
+/**
+ * Create dynamic `[Content_Types].xml` based on actual presentation parts
+ * @param {IPresentationProps} pres - presentation object (this)
+ * @returns {string} XML
+ */
+export function makeXmlContentTypes(pres: IPresentationProps): string {
+	let strXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}`
+	strXml += '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+
+	// Defaults
+	strXml += '<Default Extension="jpeg" ContentType="image/jpeg"/>'
+	strXml += '<Default Extension="png" ContentType="image/png"/>'
+	strXml += '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+	strXml += '<Default Extension="svg" ContentType="image/svg+xml"/>'
+	strXml += '<Default Extension="xml" ContentType="application/xml"/>'
+
+	// Presentation
+	strXml += '<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>'
+
+	// Slide master
+	strXml += '<Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>'
+
+	// Slides
+	for (let i = 1; i <= (pres.slides ? pres.slides.length : 0); i++) {
+		strXml += `<Override PartName="/ppt/slides/slide${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`
+	}
+
+	// Notes slides (one per slide)
+	for (let i = 1; i <= (pres.slides ? pres.slides.length : 0); i++) {
+		strXml += `<Override PartName="/ppt/notesSlides/notesSlide${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"/>`
+	}
+
+	// Slide layouts
+	for (let i = 1; i <= (pres.slideLayouts ? pres.slideLayouts.length : 0); i++) {
+		strXml += `<Override PartName="/ppt/slideLayouts/slideLayout${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>`
+	}
+
+	// Theme, props and styles
+	strXml += '<Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>'
+	strXml += '<Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/>'
+	strXml += '<Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/>'
+	strXml += '<Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/>'
+
+	// Notes master and handout master if present
+	strXml += '<Override PartName="/ppt/notesMasters/notesMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesMaster+xml"/>'
+	strXml += '<Override PartName="/ppt/handoutMasters/handoutMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.handoutMaster+xml"/>'
+
+	// Document properties
+	strXml += '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'
+	strXml += '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'
+	strXml += '<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>'
+
+	strXml += '</Types>'
 	return strXml
 }
 
