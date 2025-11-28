@@ -1,4 +1,4 @@
-/* PptxGenJS 4.0.1 @ 2025-06-25T23:35:35.098Z */
+/* PptxGenJS 4.0.1 @ 2025-11-28T17:10:24.976Z */
 import JSZip from 'jszip';
 
 /******************************************************************************
@@ -41,7 +41,6 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
 const EMU = 914400; // One (1) inch (OfficeXML measures in EMU (English Metric Units))
 const ONEPT = 12700; // One (1) point (pt)
 const CRLF = '\r\n'; // AKA: Chr(13) & Chr(10)
-const LAYOUT_IDX_SERIES_BASE = 2147483649;
 const REGEX_HEX_COLOR = /^[0-9a-fA-F]{6}$/;
 const LINEH_MODIFIER = 1.67; // AKA: Golden Ratio Typography
 const DEF_BULLET_MARGIN = 27;
@@ -52,7 +51,8 @@ const DEF_CHART_GRIDLINE = { color: '888888', style: 'solid', size: 1, cap: 'fla
 const DEF_FONT_COLOR = '000000';
 const DEF_FONT_SIZE = 12;
 const DEF_FONT_TITLE_SIZE = 18;
-const DEF_PRES_LAYOUT = 'LAYOUT_16x9';
+// Default presentation layout: use wide 13.333" x 7.5" (LAYOUT_WIDE)
+const DEF_PRES_LAYOUT = 'LAYOUT_WIDE';
 const DEF_PRES_LAYOUT_NAME = 'DEFAULT';
 const DEF_SHAPE_LINE_COLOR = '333333';
 const DEF_SHAPE_SHADOW = { type: 'outer', blur: 3, offset: 23000 / 12700, angle: 90, color: '000000', opacity: 0.35, rotateWithShape: true };
@@ -2901,6 +2901,24 @@ class Slide {
         return this;
     }
 }
+
+const CUSTOM_RELS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail" Target="docProps/thumbnail.jpeg"/><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/><Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/><Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>`;
+const CUSTOM_PROPS_APP_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Template>EDP_2025_16x9_Energy</Template><TotalTime>144</TotalTime><Words>1807</Words><Application>Microsoft Office PowerPoint</Application><PresentationFormat>Widescreen</PresentationFormat><Paragraphs>378</Paragraphs><Slides>19</Slides><Notes>1</Notes><HiddenSlides>0</HiddenSlides><MMClips>0</MMClips><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="6" baseType="variant"><vt:variant><vt:lpstr>Fonts Used</vt:lpstr></vt:variant><vt:variant><vt:i4>3</vt:i4></vt:variant><vt:variant><vt:lpstr>Theme</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant><vt:variant><vt:lpstr>Slide Titles</vt:lpstr></vt:variant><vt:variant><vt:i4>19</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="23" baseType="lpstr"><vt:lpstr>Google Sans</vt:lpstr><vt:lpstr>Arial</vt:lpstr><vt:lpstr>Arial</vt:lpstr><vt:lpstr>S-P Global EDP 2025 16-9</vt:lpstr><vt:lpstr>[Title max two lines, shrink to fit – must be at least 32pt]</vt:lpstr><vt:lpstr>[Title max two lines, shrink to fit – must be at least 32pt]</vt:lpstr><vt:lpstr>Event Type | Session Name</vt:lpstr><vt:lpstr>[Presenter/Moderator/Panelist] — select a title</vt:lpstr><vt:lpstr>Rules — please review carefully!</vt:lpstr><vt:lpstr>Accessibility</vt:lpstr><vt:lpstr>Resources</vt:lpstr><vt:lpstr>Table samples</vt:lpstr><vt:lpstr>Table samples</vt:lpstr><vt:lpstr>Design assets</vt:lpstr><vt:lpstr>Iconography</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Icon samples: General use</vt:lpstr><vt:lpstr>Contact us</vt:lpstr><vt:lpstr>Disclaimer</vt:lpstr></vt:vector></TitlesOfParts><Company>SP Global</Company><LinksUpToDate>false</LinksUpToDate><SharedDoc>false</SharedDoc><HyperlinksChanged>false</HyperlinksChanged><AppVersion>16.0000</AppVersion></Properties>`;
+const CUSTOM_PROPS_CORE_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title></dc:title><dc:creator>PptxGen</dc:creator><cp:lastModifiedBy>PptxGen</cp:lastModifiedBy><cp:revision>1</cp:revision><dcterms:created xsi:type="dcterms:W3CDTF">2025-11-28T09:57:00Z</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">2025-11-28T12:21:40Z</dcterms:modified></cp:coreProperties>`;
+const CUSTOM_PROPS_CUSTOM_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="2" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_Enabled"><vt:lpwstr>true</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="3" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_SetDate"><vt:lpwstr>2025-11-19T00:16:38Z</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="4" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_Method"><vt:lpwstr>Standard</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="5" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_Name"><vt:lpwstr>831f0267-8575-4fc2-99cc-f6b7f9934be9</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="6" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_SiteId"><vt:lpwstr>8f3e36ea-8039-4b40-81a7-7dc0599e8645</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="7" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_ActionId"><vt:lpwstr>8419858e-47ef-4415-98ff-73e00ab96e0c</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="8" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_ContentBits"><vt:lpwstr>0</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="9" name="MSIP_Label_831f0267-8575-4fc2-99cc-f6b7f9934be9_Tag"><vt:lpwstr>10, 3, 0, 1</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="10" name="MediaServiceImageTags"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="11" name="xd_ProgID"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="12" name="ContentTypeId"><vt:lpwstr>0x010100B9EE4FBF6D5A19429BAECE3910427730</vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="13" name="ComplianceAssetId"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="14" name="TemplateUrl"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="15" name="_ExtendedDescription"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="16" name="TriggerFlowInfo"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="17" name="Notes"><vt:lpwstr></vt:lpwstr></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="18" name="xd_Signature"><vt:bool>false</vt:bool></property><property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="19" name="GUID"><vt:lpwstr>b3e3049c-3f7a-4aa7-87c5-fac8467452c9</vt:lpwstr></property></Properties>`;
+const CUSTOM_PPT_THEME1_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="S-P Global EDP 2025 16-9"><a:themeElements><a:clrScheme name="Custom 11"><a:dk1><a:srgbClr val="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="404040"/></a:dk2><a:lt2><a:srgbClr val="DCDCDC"/></a:lt2><a:accent1><a:srgbClr val="D6002A"/></a:accent1><a:accent2><a:srgbClr val="000000"/></a:accent2><a:accent3><a:srgbClr val="C2C2C2"/></a:accent3><a:accent4><a:srgbClr val="9E8D73"/></a:accent4><a:accent5><a:srgbClr val="C7DAE0"/></a:accent5><a:accent6><a:srgbClr val="EDF86F"/></a:accent6><a:hlink><a:srgbClr val="0F82AF"/></a:hlink><a:folHlink><a:srgbClr val="0D6E95"/></a:folHlink></a:clrScheme><a:fontScheme name="SP Global Font Theme"><a:majorFont><a:latin typeface="Arial"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="Arial"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="Office Theme"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:lumMod val="110000"/><a:satMod val="105000"/><a:tint val="67000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="103000"/><a:tint val="73000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="109000"/><a:tint val="81000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:satMod val="103000"/><a:lumMod val="102000"/><a:tint val="94000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:satMod val="110000"/><a:lumMod val="100000"/><a:shade val="100000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="99000"/><a:satMod val="120000"/><a:shade val="78000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="12700" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="19050" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst><a:outerShdw blurRad="57150" dist="19050" dir="5400000" algn="ctr" rotWithShape="0"><a:srgbClr val="000000"><a:alpha val="63000"/></a:srgbClr></a:outerShdw></a:effectLst></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"><a:tint val="95000"/><a:satMod val="170000"/></a:schemeClr></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:tint val="93000"/><a:satMod val="150000"/><a:shade val="98000"/><a:lumMod val="102000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:tint val="98000"/><a:satMod val="130000"/><a:shade val="90000"/><a:lumMod val="103000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:shade val="63000"/><a:satMod val="120000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults><a:spDef><a:spPr><a:solidFill><a:schemeClr val="bg2"/></a:solidFill><a:ln><a:noFill/></a:ln></a:spPr><a:bodyPr rtlCol="0" anchor="ctr"/><a:lstStyle><a:defPPr algn="ctr"><a:spcAft><a:spcPts val="200"/></a:spcAft><a:defRPr sz="1400" dirty="0"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill></a:defRPr></a:defPPr></a:lstStyle><a:style><a:lnRef idx="2"><a:schemeClr val="accent1"><a:shade val="50000"/></a:schemeClr></a:lnRef><a:fillRef idx="1"><a:schemeClr val="accent1"/></a:fillRef><a:effectRef idx="0"><a:schemeClr val="accent1"/></a:effectRef><a:fontRef idx="minor"><a:schemeClr val="lt1"/></a:fontRef></a:style></a:spDef><a:lnDef><a:spPr><a:ln><a:solidFill><a:schemeClr val="tx1"/></a:solidFill></a:ln></a:spPr><a:bodyPr/><a:lstStyle/><a:style><a:lnRef idx="1"><a:schemeClr val="accent1"/></a:lnRef><a:fillRef idx="0"><a:schemeClr val="accent1"/></a:fillRef><a:effectRef idx="0"><a:schemeClr val="accent1"/></a:effectRef><a:fontRef idx="minor"><a:schemeClr val="tx1"/></a:fontRef></a:style></a:lnDef><a:txDef><a:spPr><a:noFill/></a:spPr><a:bodyPr wrap="square" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0"><a:spAutoFit/></a:bodyPr><a:lstStyle><a:defPPr algn="l"><a:spcAft><a:spcPts val="200"/></a:spcAft><a:defRPr sz="1400" dirty="0" err="1" smtClean="0"/></a:defPPr></a:lstStyle></a:txDef></a:objectDefaults><a:extraClrSchemeLst/><a:custClrLst><a:custClr name="Ocean 7"><a:srgbClr val="006D89"/></a:custClr><a:custClr name="Gold 7B"><a:srgbClr val="DC7900"/></a:custClr><a:custClr name="Magenta 7"><a:srgbClr val="B92051"/></a:custClr><a:custClr name="Purple 9"><a:srgbClr val="501555"/></a:custClr><a:custClr name="Teal 7"><a:srgbClr val="0F9E7A"/></a:custClr><a:custClr name="Ocean 9"><a:srgbClr val="00495B"/></a:custClr><a:custClr name="Orange 7"><a:srgbClr val="C94100"/></a:custClr><a:custClr name="Blue 8"><a:srgbClr val="1D3BAA"/></a:custClr><a:custClr name="Magenta 5"><a:srgbClr val="CD6083"/></a:custClr><a:custClr name="Green 9"><a:srgbClr val="125E1F"/></a:custClr><a:custClr name="Gray 7B"><a:srgbClr val="929497"/></a:custClr><a:custClr name="Purple 7"><a:srgbClr val="782080"/></a:custClr><a:custClr name="Blue 5"><a:srgbClr val="7284CA"/></a:custClr><a:custClr name="Gold 9"><a:srgbClr val="9D5700"/></a:custClr><a:custClr name="Purple 4"><a:srgbClr val="B280B6"/></a:custClr><a:custClr name="Blue 6"><a:srgbClr val="566CBF"/></a:custClr><a:custClr name="Ocean 4"><a:srgbClr val="6CABBB"/></a:custClr><a:custClr name="Ochre 7"><a:srgbClr val="C18B28"/></a:custClr><a:custClr name="Green 6"><a:srgbClr val="3C9D4D"/></a:custClr><a:custClr name="Maroon 9"><a:srgbClr val="6B0F01"/></a:custClr><a:custClr name="Positive"><a:srgbClr val="167527"/></a:custClr><a:custClr name="Somewhat Positive"><a:srgbClr val="9DCEA6"/></a:custClr><a:custClr name="Neutral/No Change"><a:srgbClr val="BBBDBF"/></a:custClr><a:custClr name="Neutral alt."><a:srgbClr val="4997AB"/></a:custClr><a:custClr name="Somewhat Negative"><a:srgbClr val="D79B93"/></a:custClr><a:custClr name="Negative"><a:srgbClr val="B20023"/></a:custClr><a:custClr name="Gray 2B"><a:srgbClr val="F1F1F2"/></a:custClr><a:custClr name="Gray 4B"><a:srgbClr val="D0D2D3"/></a:custClr><a:custClr name="Gray 6B"><a:srgbClr val="A6A8AB"/></a:custClr><a:custClr name="Gray 8B"><a:srgbClr val="808184"/></a:custClr><a:custClr name="Orange 10"><a:srgbClr val="652100"/></a:custClr><a:custClr name="Orange 8"><a:srgbClr val="A73600"/></a:custClr><a:custClr name="Orange 6"><a:srgbClr val="D15C24"/></a:custClr><a:custClr name="Orange 4"><a:srgbClr val="E0926D"/></a:custClr><a:custClr name="Orange 2"><a:srgbClr val="F0C9B6"/></a:custClr><a:custClr name="Ocean 2"><a:srgbClr val="B6D5DD"/></a:custClr><a:custClr name="Ocean 4"><a:srgbClr val="6CABBB"/></a:custClr><a:custClr name="Ocean 6"><a:srgbClr val="24829A"/></a:custClr><a:custClr name="Ocean 8"><a:srgbClr val="005B72"/></a:custClr><a:custClr name="Ocean 10"><a:srgbClr val="003745"/></a:custClr><a:custClr name="Gold 10"><a:srgbClr val="764100"/></a:custClr><a:custClr name="Gold 8"><a:srgbClr val="C56C00"/></a:custClr><a:custClr name="Gold 6"><a:srgbClr val="EF9424"/></a:custClr><a:custClr name="Gold 4"><a:srgbClr val="F4B86D"/></a:custClr><a:custClr name="Gold 2"><a:srgbClr val="FADBB6"/></a:custClr><a:custClr name="Purple 2"><a:srgbClr val="D8BFDB"/></a:custClr><a:custClr name="Purple 4"><a:srgbClr val="B280B6"/></a:custClr><a:custClr name="Purple 6"><a:srgbClr val="8B4092"/></a:custClr><a:custClr name="Purple 8"><a:srgbClr val="641B6B"/></a:custClr><a:custClr name="Purple 10"><a:srgbClr val="3C1040"/></a:custClr></a:custClrLst><a:extLst><a:ext uri="{05A4C25C-085E-4340-85A3-A5531E510DB2}"><thm15:themeFamily xmlns:thm15="http://schemas.microsoft.com/office/thememl/2012/main" name="Presentation1" id="{9CA853B5-ECAA-4B0A-AD5E-06420D644B4D}" vid="{87CB819A-DEFF-4208-9237-7051C6C00DB2}"/></a:ext></a:extLst></a:theme>`;
+const CUSTOM_PPT_SLIDE_MASTER_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:bg><p:bgRef idx="1001"><a:schemeClr val="bg1"/></p:bgRef></p:bg><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:sp><p:nvSpPr><p:cNvPr id="2" name="Footer Placeholder 1"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{DA160B2F-9375-4DE3-A5A0-161BE0A64385}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="ftr" sz="quarter" idx="3"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="6096000" y="0"/><a:ext cx="5535279" cy="317674"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr vert="horz" wrap="none" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="ctr"/><a:lstStyle><a:lvl1pPr algn="r"><a:defRPr sz="900"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Section name (optional) / Title / Month 20YY</a:t></a:r></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="6" name="Slide Number Placeholder 5"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr userDrawn="1"><p:ph type="sldNum" sz="quarter" idx="4"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="11320251" y="6563709"/><a:ext cx="311576" cy="214804"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr vert="horz" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="ctr"/><a:lstStyle><a:lvl1pPr algn="r"><a:defRPr sz="700"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:fld id="{5CFA18E4-D58E-4B28-B105-28D9665A8EBC}" type="slidenum"><a:rPr lang="en-US" smtClean="0"/><a:pPr/><a:t>‹#›</a:t></a:fld><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="88" name="Title Placeholder 1"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{92E3486A-297A-4953-BF79-0AEFDE6C9C3F}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr userDrawn="1"><p:ph type="title"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="567039" y="323644"/><a:ext cx="11062709" cy="845439"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr vert="horz" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0" anchor="t"><a:noAutofit/></a:bodyPr><a:lstStyle/><a:p><a:r><a:rPr lang="en-US"/><a:t>Click to edit Master title style</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="27" name="Text Placeholder 2"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{F08B5A9E-5A85-46D7-B45C-7C4E83238E02}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr userDrawn="1"><p:ph type="body" idx="1"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="567039" y="1289097"/><a:ext cx="11064240" cy="4261397"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr vert="horz" lIns="0" tIns="0" rIns="0" bIns="0" rtlCol="0"><a:noAutofit/></a:bodyPr><a:lstStyle/><a:p><a:pPr lvl="0"/><a:r><a:rPr lang="en-US"/><a:t>Click to edit Master text styles</a:t></a:r></a:p><a:p><a:pPr lvl="1"/><a:r><a:rPr lang="en-US"/><a:t>Second level</a:t></a:r></a:p><a:p><a:pPr lvl="2"/><a:r><a:rPr lang="en-US"/><a:t>Third level</a:t></a:r></a:p><a:p><a:pPr lvl="3"/><a:r><a:rPr lang="en-US"/><a:t>Fourth level</a:t></a:r></a:p><a:p><a:pPr lvl="4"/><a:r><a:rPr lang="en-US"/><a:t>Fifth level</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="80" name="Rectangle 79"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{1284AB22-BA66-47B9-8BEB-416F2BFF4706}"/></a:ext><a:ext uri="{C183D7F6-B498-43B3-948B-1728B52AA6E4}"><adec:decorative xmlns:adec="http://schemas.microsoft.com/office/drawing/2017/decorative" val="0"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr/><p:nvPr userDrawn="1"/></p:nvSpPr><p:spPr><a:xfrm><a:off x="5272088" y="6575649"/><a:ext cx="6129126" cy="200055"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr wrap="square" anchor="b"><a:spAutoFit/></a:bodyPr><a:lstStyle/><a:p><a:pPr algn="r"/><a:r><a:rPr lang="en-US" sz="700" dirty="0"><a:latin typeface="+mn-lt"/></a:rPr><a:t>© 2025 S&amp;P Global.</a:t></a:r></a:p></p:txBody></p:sp></p:spTree><p:extLst><p:ext uri="{BB962C8B-B14F-4D97-AF65-F5344CB8AC3E}"><p14:creationId xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" val="3674233272"/></p:ext></p:extLst></p:cSld><p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/><p:sldLayoutIdLst><p:sldLayoutId id="2147483757" r:id="rId1"/><p:sldLayoutId id="2147483758" r:id="rId2"/><p:sldLayoutId id="2147483767" r:id="rId3"/><p:sldLayoutId id="2147483664" r:id="rId4"/><p:sldLayoutId id="2147483704" r:id="rId5"/><p:sldLayoutId id="2147483768" r:id="rId6"/><p:sldLayoutId id="2147483769" r:id="rId7"/><p:sldLayoutId id="2147483668" r:id="rId8"/><p:sldLayoutId id="2147483759" r:id="rId9"/><p:sldLayoutId id="2147483667" r:id="rId10"/><p:sldLayoutId id="2147483742" r:id="rId11"/><p:sldLayoutId id="2147483727" r:id="rId12"/><p:sldLayoutId id="2147483771" r:id="rId13"/><p:sldLayoutId id="2147483772" r:id="rId14"/><p:sldLayoutId id="2147483711" r:id="rId15"/><p:sldLayoutId id="2147483698" r:id="rId16"/><p:sldLayoutId id="2147483700" r:id="rId17"/><p:sldLayoutId id="2147483702" r:id="rId18"/><p:sldLayoutId id="2147483774" r:id="rId19"/><p:sldLayoutId id="2147483826" r:id="rId20"/><p:sldLayoutId id="2147483773" r:id="rId21"/><p:sldLayoutId id="2147483707" r:id="rId22"/><p:sldLayoutId id="2147483741" r:id="rId23"/><p:sldLayoutId id="2147483814" r:id="rId24"/><p:sldLayoutId id="2147483815" r:id="rId25"/><p:sldLayoutId id="2147483816" r:id="rId26"/><p:sldLayoutId id="2147483680" r:id="rId27"/><p:sldLayoutId id="2147483735" r:id="rId28"/><p:sldLayoutId id="2147483678" r:id="rId29"/><p:sldLayoutId id="2147483734" r:id="rId30"/><p:sldLayoutId id="2147483675" r:id="rId31"/><p:sldLayoutId id="2147483663" r:id="rId32"/><p:sldLayoutId id="2147483762" r:id="rId33"/><p:sldLayoutId id="2147483817" r:id="rId34"/><p:sldLayoutId id="2147483818" r:id="rId35"/><p:sldLayoutId id="2147483805" r:id="rId36"/><p:sldLayoutId id="2147483806" r:id="rId37"/><p:sldLayoutId id="2147483809" r:id="rId38"/><p:sldLayoutId id="2147483807" r:id="rId39"/><p:sldLayoutId id="2147483810" r:id="rId40"/><p:sldLayoutId id="2147483813" r:id="rId41"/><p:sldLayoutId id="2147483688" r:id="rId42"/><p:sldLayoutId id="2147483778" r:id="rId43"/><p:sldLayoutId id="2147483822" r:id="rId44"/><p:sldLayoutId id="2147483779" r:id="rId45"/><p:sldLayoutId id="2147483825" r:id="rId46"/><p:sldLayoutId id="2147483821" r:id="rId47"/><p:sldLayoutId id="2147483820" r:id="rId48"/><p:sldLayoutId id="2147483781" r:id="rId49"/><p:sldLayoutId id="2147483782" r:id="rId50"/><p:sldLayoutId id="2147483783" r:id="rId51"/><p:sldLayoutId id="2147483786" r:id="rId52"/><p:sldLayoutId id="2147483784" r:id="rId53"/><p:sldLayoutId id="2147483819" r:id="rId54"/><p:sldLayoutId id="2147483824" r:id="rId55"/><p:sldLayoutId id="2147483827" r:id="rId56"/><p:sldLayoutId id="2147483674" r:id="rId57"/></p:sldLayoutIdLst><p:hf hdr="0" ftr="0" dt="0"/><p:txStyles><p:titleStyle><a:lvl1pPr algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="90000"/></a:lnSpc><a:spcBef><a:spcPct val="0"/></a:spcBef><a:buNone/><a:defRPr sz="2400" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mj-lt"/><a:ea typeface="+mj-ea"/><a:cs typeface="+mj-cs"/></a:defRPr></a:lvl1pPr></p:titleStyle><p:bodyStyle><a:lvl1pPr marL="169863" indent="-169863" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="600"/></a:spcAft><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1600" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl1pPr><a:lvl2pPr marL="341313" indent="-171450" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="600"/></a:spcAft><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="–"/><a:defRPr sz="1400" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl2pPr><a:lvl3pPr marL="517525" indent="-176213" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="600"/></a:spcAft><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:tabLst/><a:defRPr sz="1200" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl3pPr><a:lvl4pPr marL="687388" indent="-169863" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="600"/></a:spcAft><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="–"/><a:defRPr sz="1050" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl4pPr><a:lvl5pPr marL="914400" indent="-227013" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="600"/></a:spcAft><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1050" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl5pPr><a:lvl6pPr marL="2514600" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="90000"/></a:lnSpc><a:spcBef><a:spcPts val="500"/></a:spcBef><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl6pPr><a:lvl7pPr marL="2971800" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="90000"/></a:lnSpc><a:spcBef><a:spcPts val="500"/></a:spcBef><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl7pPr><a:lvl8pPr marL="3429000" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="90000"/></a:lnSpc><a:spcBef><a:spcPts val="500"/></a:spcBef><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl8pPr><a:lvl9pPr marL="3886200" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:lnSpc><a:spcPct val="90000"/></a:lnSpc><a:spcBef><a:spcPts val="500"/></a:spcBef><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl9pPr></p:bodyStyle><p:otherStyle><a:defPPr><a:defRPr lang="en-US"/></a:defPPr><a:lvl1pPr marL="0" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl1pPr><a:lvl2pPr marL="457200" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl2pPr><a:lvl3pPr marL="914400" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl3pPr><a:lvl4pPr marL="1371600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl4pPr><a:lvl5pPr marL="1828800" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl5pPr><a:lvl6pPr marL="2286000" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl6pPr><a:lvl7pPr marL="2743200" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl7pPr><a:lvl8pPr marL="3200400" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl8pPr><a:lvl9pPr marL="3657600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl9pPr></p:otherStyle></p:txStyles><p:extLst><p:ext uri="{27BBF7A9-308A-43DC-89C8-2F10F3537804}"><p15:sldGuideLst xmlns:p15="http://schemas.microsoft.com/office/powerpoint/2012/main"><p15:guide id="5" pos="3840" userDrawn="1"><p15:clr><a:srgbClr val="A4A3A4"/></p15:clr></p15:guide><p15:guide id="6" pos="7329" userDrawn="1"><p15:clr><a:srgbClr val="F26B43"/></p15:clr></p15:guide><p15:guide id="9" orient="horz" pos="216" userDrawn="1"><p15:clr><a:srgbClr val="F26B43"/></p15:clr></p15:guide><p15:guide id="12" orient="horz" pos="3912" userDrawn="1"><p15:clr><a:srgbClr val="F26B43"/></p15:clr></p15:guide><p15:guide id="21" pos="351" userDrawn="1"><p15:clr><a:srgbClr val="F26B43"/></p15:clr></p15:guide></p15:sldGuideLst></p:ext></p:extLst></p:sldMaster>`;
+
+const CUSTOM_PPT_SLIDE_LAYOUT1_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sldLayout xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" preserve="1" userDrawn="1"><p:cSld name="Content - no subtitle"><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:sp><p:nvSpPr><p:cNvPr id="2" name="Footer Placeholder 1"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{4E553B1B-F09C-4BCE-B1ED-5F7876CB7175}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="ftr" sz="quarter" idx="18"/></p:nvPr></p:nvSpPr><p:spPr/><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Section name (optional) / Title / Month 20YY</a:t></a:r></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="6" name="Slide Number Placeholder 5"/><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="sldNum" sz="quarter" idx="12"/></p:nvPr></p:nvSpPr><p:spPr/><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:fld id="{5246FB18-5DF1-419A-B975-14AFDDD65B9F}" type="slidenum"><a:rPr lang="en-US" smtClean="0"/><a:t>‹#›</a:t></a:fld><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="9" name="Title 6"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{25C0A2CC-8C09-4333-9F19-4CE0A59F345F}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="title" hasCustomPrompt="1"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="567040" y="347472"/><a:ext cx="11060912" cy="826477"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:r><a:rPr lang="en-US" dirty="0"/><a:t>[Headline]</a:t></a:r></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="3" name="Content Placeholder 2"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{6765E0BB-9159-43DF-B78A-D878AD54B307}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph sz="quarter" idx="17" hasCustomPrompt="1"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="567037" y="1257300"/><a:ext cx="11064240" cy="4343400"/></a:xfrm></p:spPr><p:txBody><a:bodyPr/><a:lstStyle/><a:p><a:pPr lvl="0"/><a:r><a:rPr kumimoji="0" lang="en-US" sz="1600" b="0" i="0" u="none" strike="noStrike" kern="1200" cap="none" spc="0" normalizeH="0" baseline="0" noProof="0" dirty="0"><a:ln><a:noFill/></a:ln><a:solidFill><a:srgbClr val="000000"/></a:solidFill><a:effectLst/><a:uLnTx/><a:uFillTx/><a:latin typeface="Arial"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:rPr><a:t>[Click to add content]</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p><a:p><a:pPr lvl="1"/><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Second level</a:t></a:r></a:p><a:p><a:pPr lvl="2"/><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Third level</a:t></a:r></a:p><a:p><a:pPr lvl="3"/><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Fourth level</a:t></a:r></a:p><a:p><a:pPr lvl="4"/><a:r><a:rPr lang="en-US" dirty="0"/><a:t>Fifth level</a:t></a:r></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="8" name="Footnote"><a:extLst><a:ext uri="{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}"><a16:creationId xmlns:a16="http://schemas.microsoft.com/office/drawing/2014/main" id="{47493D5F-84BF-4940-A104-ECCA1C18969D}"/></a:ext></a:extLst></p:cNvPr><p:cNvSpPr><a:spLocks noGrp="1"/></p:cNvSpPr><p:nvPr><p:ph type="body" sz="quarter" idx="15" hasCustomPrompt="1"/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="567039" y="5687045"/><a:ext cx="11060912" cy="525368"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr><p:txBody><a:bodyPr tIns="0" bIns="0" anchor="b"/><a:lstStyle><a:lvl1pPr marL="0" indent="0"><a:lnSpc><a:spcPct val="100000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:spcAft><a:spcPts val="200"/></a:spcAft><a:buSzPct val="25000"/><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buNone/><a:defRPr sz="700"><a:latin typeface="+mn-lt"/></a:defRPr></a:lvl1pPr><a:lvl2pPr marL="169863" indent="-112713"><a:lnSpc><a:spcPct val="70000"/></a:lnSpc><a:spcBef><a:spcPts val="0"/></a:spcBef><a:buFont typeface="Arial" panose="020B0604020202020204" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="700"><a:latin typeface="+mn-lt"/></a:defRPr></a:lvl2pPr><a:lvl3pPr marL="341312" indent="0"><a:buNone/><a:defRPr/></a:lvl3pPr></a:lstStyle><a:p><a:pPr lvl="0"/><a:r><a:rPr lang="en-US" dirty="0"/><a:t>[Source / Legal disclaimer / Footnote]</a:t></a:r></a:p></p:txBody></p:sp></p:spTree><p:extLst><p:ext uri="{BB962C8B-B14F-4D97-AF65-F5344CB8AC3E}"><p14:creationId xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" val="284192476"/></p:ext></p:extLst></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr><p:extLst><p:ext uri="{DCECCB84-F9BA-43D5-87BE-67443E8EF086}"><p15:sldGuideLst xmlns:p15="http://schemas.microsoft.com/office/powerpoint/2012/main"><p15:guide id="1" orient="horz" pos="792" userDrawn="1"><p15:clr><a:srgbClr val="FBAE40"/></p15:clr></p15:guide><p15:guide id="2" orient="horz" pos="3528" userDrawn="1"><p15:clr><a:srgbClr val="FBAE40"/></p15:clr></p15:guide></p15:sldGuideLst></p:ext></p:extLst></p:sldLayout>`;
+const CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/></Relationships>`;
 
 /**
  * PptxGenJS: Chart Generation
@@ -6314,152 +6332,6 @@ function genXmlPlaceholder(placeholderObj) {
 		${placeholderObj.text && placeholderObj.text.length > 0 ? ' hasCustomPrompt="1"' : ''}
 		/>`;
 }
-// XML-GEN: First 6 functions create the base /ppt files
-/**
- * Generate XML ContentType
- * @param {PresSlide[]} slides - slides
- * @param {SlideLayout[]} slideLayouts - slide layouts
- * @param {PresSlide} masterSlide - master slide
- * @returns XML
- */
-function makeXmlContTypes(slides, slideLayouts, masterSlide) {
-    let strXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + CRLF;
-    strXml += '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">';
-    strXml += '<Default Extension="xml" ContentType="application/xml"/>';
-    strXml += '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
-    strXml += '<Default Extension="jpeg" ContentType="image/jpeg"/>';
-    strXml += '<Default Extension="jpg" ContentType="image/jpg"/>';
-    strXml += '<Default Extension="svg" ContentType="image/svg+xml"/>';
-    // STEP 1: Add standard/any media types used in Presentation
-    strXml += '<Default Extension="png" ContentType="image/png"/>';
-    strXml += '<Default Extension="gif" ContentType="image/gif"/>';
-    strXml += '<Default Extension="m4v" ContentType="video/mp4"/>'; // NOTE: Hard-Code this extension as it wont be created in loop below (as extn !== type)
-    strXml += '<Default Extension="mp4" ContentType="video/mp4"/>'; // NOTE: Hard-Code this extension as it wont be created in loop below (as extn !== type)
-    slides.forEach(slide => {
-        (slide._relsMedia || []).forEach(rel => {
-            if (rel.type !== 'image' && rel.type !== 'online' && rel.type !== 'chart' && rel.extn !== 'm4v' && !strXml.includes(rel.type)) {
-                strXml += '<Default Extension="' + rel.extn + '" ContentType="' + rel.type + '"/>';
-            }
-        });
-    });
-    strXml += '<Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/>';
-    strXml += '<Default Extension="xlsx" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>';
-    // STEP 2: Add presentation and slide master(s)/slide(s)
-    strXml += '<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>';
-    strXml += '<Override PartName="/ppt/notesMasters/notesMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesMaster+xml"/>';
-    slides.forEach((slide, idx) => {
-        strXml += `<Override PartName="/ppt/slideMasters/slideMaster${idx + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>`;
-        strXml += `<Override PartName="/ppt/slides/slide${idx + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`;
-        // Add charts if any
-        slide._relsChart.forEach(rel => {
-            strXml += `<Override PartName="${rel.Target}" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>`;
-        });
-    });
-    // STEP 3: Core PPT
-    strXml += '<Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/>';
-    strXml += '<Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/>';
-    strXml += '<Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>';
-    strXml += '<Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/>';
-    // STEP 4: Add Slide Layouts
-    slideLayouts.forEach((layout, idx) => {
-        strXml += `<Override PartName="/ppt/slideLayouts/slideLayout${idx + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>`;
-        (layout._relsChart || []).forEach(rel => {
-            strXml += ' <Override PartName="' + rel.Target + '" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>';
-        });
-    });
-    // STEP 5: Add notes slide(s)
-    slides.forEach((_slide, idx) => {
-        strXml += `<Override PartName="/ppt/notesSlides/notesSlide${idx + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"/>`;
-    });
-    // STEP 6: Add rels
-    masterSlide._relsChart.forEach(rel => {
-        strXml += ' <Override PartName="' + rel.Target + '" ContentType="application/vnd.openxmlformats-officedocument.drawingml.chart+xml"/>';
-    });
-    masterSlide._relsMedia.forEach(rel => {
-        if (rel.type !== 'image' && rel.type !== 'online' && rel.type !== 'chart' && rel.extn !== 'm4v' && !strXml.includes(rel.type)) {
-            strXml += ' <Default Extension="' + rel.extn + '" ContentType="' + rel.type + '"/>';
-        }
-    });
-    // LAST: Finish XML (Resume core)
-    strXml += ' <Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>';
-    strXml += ' <Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>';
-    strXml += '</Types>';
-    return strXml;
-}
-/**
- * Creates `_rels/.rels`
- * @returns XML
- */
-function makeXmlRootRels() {
-    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-		<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>
-		<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>
-		<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
-		</Relationships>`;
-}
-/**
- * Creates `docProps/app.xml`
- * @param {PresSlide[]} slides - Presenation Slides
- * @param {string} company - "Company" metadata
- * @returns XML
- */
-function makeXmlApp(slides, company) {
-    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
-	<TotalTime>0</TotalTime>
-	<Words>0</Words>
-	<Application>Microsoft Office PowerPoint</Application>
-	<PresentationFormat>On-screen Show (16:9)</PresentationFormat>
-	<Paragraphs>0</Paragraphs>
-	<Slides>${slides.length}</Slides>
-	<Notes>${slides.length}</Notes>
-	<HiddenSlides>0</HiddenSlides>
-	<MMClips>0</MMClips>
-	<ScaleCrop>false</ScaleCrop>
-	<HeadingPairs>
-		<vt:vector size="6" baseType="variant">
-			<vt:variant><vt:lpstr>Fonts Used</vt:lpstr></vt:variant>
-			<vt:variant><vt:i4>2</vt:i4></vt:variant>
-			<vt:variant><vt:lpstr>Theme</vt:lpstr></vt:variant>
-			<vt:variant><vt:i4>1</vt:i4></vt:variant>
-			<vt:variant><vt:lpstr>Slide Titles</vt:lpstr></vt:variant>
-			<vt:variant><vt:i4>${slides.length}</vt:i4></vt:variant>
-		</vt:vector>
-	</HeadingPairs>
-	<TitlesOfParts>
-		<vt:vector size="${slides.length + 1 + 2}" baseType="lpstr">
-			<vt:lpstr>Arial</vt:lpstr>
-			<vt:lpstr>Calibri</vt:lpstr>
-			<vt:lpstr>Office Theme</vt:lpstr>
-			${slides.map((_slideObj, idx) => `<vt:lpstr>Slide ${idx + 1}</vt:lpstr>`).join('')}
-		</vt:vector>
-	</TitlesOfParts>
-	<Company>${company}</Company>
-	<LinksUpToDate>false</LinksUpToDate>
-	<SharedDoc>false</SharedDoc>
-	<HyperlinksChanged>false</HyperlinksChanged>
-	<AppVersion>16.0000</AppVersion>
-	</Properties>`;
-}
-/**
- * Creates `docProps/core.xml`
- * @param {string} title - metadata data
- * @param {string} subject - metadata data
- * @param {string} author - metadata value
- * @param {string} revision - metadata value
- * @returns XML
- */
-function makeXmlCore(title, subject, author, revision) {
-    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		<dc:title>${encodeXmlEntities(title)}</dc:title>
-		<dc:subject>${encodeXmlEntities(subject)}</dc:subject>
-		<dc:creator>${encodeXmlEntities(author)}</dc:creator>
-		<cp:lastModifiedBy>${encodeXmlEntities(author)}</cp:lastModifiedBy>
-		<cp:revision>${revision}</cp:revision>
-		<dcterms:created xsi:type="dcterms:W3CDTF">${new Date().toISOString().replace(/\.\d\d\dZ/, 'Z')}</dcterms:created>
-		<dcterms:modified xsi:type="dcterms:W3CDTF">${new Date().toISOString().replace(/\.\d\d\dZ/, 'Z')}</dcterms:modified>
-	</cp:coreProperties>`;
-}
 /**
  * Creates `ppt/_rels/presentation.xml.rels`
  * @param {PresSlide[]} slides - Presenation Slides
@@ -6543,46 +6415,35 @@ function makeXmlLayout(layout) {
  * @return {string} XML
  */
 function makeXmlMaster(slide, layouts) {
-    // NOTE: Pass layouts as static rels because they are not referenced any time
-    const layoutDefs = layouts.map((_layoutDef, idx) => `<p:sldLayoutId id="${LAYOUT_IDX_SERIES_BASE + idx}" r:id="rId${slide._rels.length + idx + 1}"/>`);
+    // Build a slideLayoutIdLst for only the layouts present
+    let layoutIdLst = '<p:sldLayoutIdLst>';
+    for (let i = 1; i <= (layouts ? layouts.length : 0); i++) {
+        layoutIdLst += `<p:sldLayoutId id="${2147483000 + i}" r:id="rId${i}"/>`;
+    }
+    layoutIdLst += '</p:sldLayoutIdLst>';
+    // If the custom master contains an existing <p:sldLayoutIdLst> block, replace it
+    if (CUSTOM_PPT_SLIDE_MASTER_XML.indexOf('<p:sldLayoutIdLst>') >= 0) {
+        return CUSTOM_PPT_SLIDE_MASTER_XML.replace(/<p:sldLayoutIdLst>[\s\S]*?<\/p:sldLayoutIdLst>/, layoutIdLst);
+    }
+    // Fallback: append layout list before hf/header/footer block
+    return CUSTOM_PPT_SLIDE_MASTER_XML.replace('</p:cSld>', `</p:cSld>${layoutIdLst}`);
+}
+/**
+ * Generate slide master rels dynamically based on available slide layouts
+ * @param {SlideLayout[]} slideLayouts
+ * @returns {string} XML
+ */
+function makeXmlSlideMasterRels(slideLayouts) {
     let strXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + CRLF;
-    strXml +=
-        '<p:sldMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">';
-    strXml += slideObjectToXml(slide);
-    strXml +=
-        '<p:clrMap bg1="lt1" tx1="dk1" bg2="lt2" tx2="dk2" accent1="accent1" accent2="accent2" accent3="accent3" accent4="accent4" accent5="accent5" accent6="accent6" hlink="hlink" folHlink="folHlink"/>';
-    strXml += '<p:sldLayoutIdLst>' + layoutDefs.join('') + '</p:sldLayoutIdLst>';
-    strXml += '<p:hf sldNum="0" hdr="0" ftr="0" dt="0"/>';
-    strXml +=
-        '<p:txStyles>' +
-            ' <p:titleStyle>' +
-            '  <a:lvl1pPr algn="ctr" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="0"/></a:spcBef><a:buNone/><a:defRPr sz="4400" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mj-lt"/><a:ea typeface="+mj-ea"/><a:cs typeface="+mj-cs"/></a:defRPr></a:lvl1pPr>' +
-            ' </p:titleStyle>' +
-            ' <p:bodyStyle>' +
-            '  <a:lvl1pPr marL="342900" indent="-342900" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="3200" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl1pPr>' +
-            '  <a:lvl2pPr marL="742950" indent="-285750" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="–"/><a:defRPr sz="2800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl2pPr>' +
-            '  <a:lvl3pPr marL="1143000" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="2400" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl3pPr>' +
-            '  <a:lvl4pPr marL="1600200" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="–"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl4pPr>' +
-            '  <a:lvl5pPr marL="2057400" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="»"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl5pPr>' +
-            '  <a:lvl6pPr marL="2514600" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl6pPr>' +
-            '  <a:lvl7pPr marL="2971800" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl7pPr>' +
-            '  <a:lvl8pPr marL="3429000" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl8pPr>' +
-            '  <a:lvl9pPr marL="3886200" indent="-228600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:spcBef><a:spcPct val="20000"/></a:spcBef><a:buFont typeface="Arial" pitchFamily="34" charset="0"/><a:buChar char="•"/><a:defRPr sz="2000" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl9pPr>' +
-            ' </p:bodyStyle>' +
-            ' <p:otherStyle>' +
-            '  <a:defPPr><a:defRPr lang="en-US"/></a:defPPr>' +
-            '  <a:lvl1pPr marL="0" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl1pPr>' +
-            '  <a:lvl2pPr marL="457200" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl2pPr>' +
-            '  <a:lvl3pPr marL="914400" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl3pPr>' +
-            '  <a:lvl4pPr marL="1371600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl4pPr>' +
-            '  <a:lvl5pPr marL="1828800" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl5pPr>' +
-            '  <a:lvl6pPr marL="2286000" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl6pPr>' +
-            '  <a:lvl7pPr marL="2743200" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl7pPr>' +
-            '  <a:lvl8pPr marL="3200400" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl8pPr>' +
-            '  <a:lvl9pPr marL="3657600" algn="l" defTabSz="914400" rtl="0" eaLnBrk="1" latinLnBrk="0" hangingPunct="1"><a:defRPr sz="1800" kern="1200"><a:solidFill><a:schemeClr val="tx1"/></a:solidFill><a:latin typeface="+mn-lt"/><a:ea typeface="+mn-ea"/><a:cs typeface="+mn-cs"/></a:defRPr></a:lvl9pPr>' +
-            ' </p:otherStyle>' +
-            '</p:txStyles>';
-    strXml += '</p:sldMaster>';
+    strXml += '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">';
+    // Create a slideLayout relationship for each existing layout
+    for (let i = 1; i <= (slideLayouts ? slideLayouts.length : 0); i++) {
+        strXml += `<Relationship Id="rId${i}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout${i}.xml"/>`;
+    }
+    // Add theme relationship as the next id
+    const themeId = (slideLayouts ? slideLayouts.length : 0) + 1;
+    strXml += `<Relationship Id="rId${themeId}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/>`;
+    strXml += '</Relationships>';
     return strXml;
 }
 /**
@@ -6592,6 +6453,9 @@ function makeXmlMaster(slide, layouts) {
  * @return {string} XML
  */
 function makeXmlSlideLayoutRel(layoutNumber, slideLayouts) {
+    // If the default layout is being generated, return the custom rel XML
+    if (slideLayouts[layoutNumber - 1] && slideLayouts[layoutNumber - 1]._name === DEF_PRES_LAYOUT_NAME)
+        return CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML;
     return slideObjectRelationsToXml(slideLayouts[layoutNumber - 1], [
         {
             target: '../slideMasters/slideMaster1.xml',
@@ -6609,7 +6473,7 @@ function makeXmlSlideLayoutRel(layoutNumber, slideLayouts) {
 function makeXmlSlideRel(slides, slideLayouts, slideNumber) {
     return slideObjectRelationsToXml(slides[slideNumber - 1], [
         {
-            target: `../slideLayouts/slideLayout${getLayoutIdxForSlide(slides, slideLayouts, slideNumber)}.xml`,
+            target: `../slideLayouts/slideLayout${getLayoutIdxForSlide()}.xml`,
             type: 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout',
         },
         {
@@ -6631,20 +6495,6 @@ function makeXmlNotesSlideRel(slideNumber) {
 		</Relationships>`;
 }
 /**
- * Creates `ppt/slideMasters/_rels/slideMaster1.xml.rels`
- * @param {PresSlide} masterSlide - Slide object
- * @param {SlideLayout[]} slideLayouts - Slide Layouts
- * @return {string} XML
- */
-function makeXmlMasterRel(masterSlide, slideLayouts) {
-    const defaultRels = slideLayouts.map((_layoutDef, idx) => ({
-        target: `../slideLayouts/slideLayout${idx + 1}.xml`,
-        type: 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout',
-    }));
-    defaultRels.push({ target: '../theme/theme1.xml', type: 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme' });
-    return slideObjectRelationsToXml(masterSlide, defaultRels);
-}
-/**
  * Creates `ppt/notesMasters/_rels/notesMaster1.xml.rels`
  * @return {string} XML
  */
@@ -6661,25 +6511,10 @@ function makeXmlNotesMasterRel() {
  * @return {number} slide number
  */
 function getLayoutIdxForSlide(slides, slideLayouts, slideNumber) {
-    for (let i = 0; i < slideLayouts.length; i++) {
-        if (slideLayouts[i]._name === slides[slideNumber - 1]._slideLayout._name) {
-            return i + 1;
-        }
-    }
-    // IMPORTANT: Return 1 (for `slideLayout1.xml`) when no def is found
-    // So all objects are in Layout1 and every slide that references it uses this layout.
+    // Forcing all slides to use slideLayout1
+    // This ensures all slides' rels will always reference `slideLayouts/slideLayout1.xml`.
+    // NOTE: Avoid accessing slide._slideLayout._name (can be null), returning a fixed 1 is safe
     return 1;
-}
-// XML-GEN: Last 5 functions create root /ppt files
-/**
- * Creates `ppt/theme/theme1.xml`
- * @return {string} XML
- */
-function makeXmlTheme(pres) {
-    var _a, _b, _c, _d;
-    const majorFont = ((_a = pres.theme) === null || _a === void 0 ? void 0 : _a.headFontFace) ? `<a:latin typeface="${(_b = pres.theme) === null || _b === void 0 ? void 0 : _b.headFontFace}"/>` : '<a:latin typeface="Calibri Light" panose="020F0302020204030204"/>';
-    const minorFont = ((_c = pres.theme) === null || _c === void 0 ? void 0 : _c.bodyFontFace) ? `<a:latin typeface="${(_d = pres.theme) === null || _d === void 0 ? void 0 : _d.bodyFontFace}"/>` : '<a:latin typeface="Calibri" panose="020F0502020204030204"/>';
-    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="Office Theme"><a:themeElements><a:clrScheme name="Office"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="44546A"/></a:dk2><a:lt2><a:srgbClr val="E7E6E6"/></a:lt2><a:accent1><a:srgbClr val="4472C4"/></a:accent1><a:accent2><a:srgbClr val="ED7D31"/></a:accent2><a:accent3><a:srgbClr val="A5A5A5"/></a:accent3><a:accent4><a:srgbClr val="FFC000"/></a:accent4><a:accent5><a:srgbClr val="5B9BD5"/></a:accent5><a:accent6><a:srgbClr val="70AD47"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="Office"><a:majorFont>${majorFont}<a:ea typeface=""/><a:cs typeface=""/><a:font script="Jpan" typeface="游ゴシック Light"/><a:font script="Hang" typeface="맑은 고딕"/><a:font script="Hans" typeface="等线 Light"/><a:font script="Hant" typeface="新細明體"/><a:font script="Arab" typeface="Times New Roman"/><a:font script="Hebr" typeface="Times New Roman"/><a:font script="Thai" typeface="Angsana New"/><a:font script="Ethi" typeface="Nyala"/><a:font script="Beng" typeface="Vrinda"/><a:font script="Gujr" typeface="Shruti"/><a:font script="Khmr" typeface="MoolBoran"/><a:font script="Knda" typeface="Tunga"/><a:font script="Guru" typeface="Raavi"/><a:font script="Cans" typeface="Euphemia"/><a:font script="Cher" typeface="Plantagenet Cherokee"/><a:font script="Yiii" typeface="Microsoft Yi Baiti"/><a:font script="Tibt" typeface="Microsoft Himalaya"/><a:font script="Thaa" typeface="MV Boli"/><a:font script="Deva" typeface="Mangal"/><a:font script="Telu" typeface="Gautami"/><a:font script="Taml" typeface="Latha"/><a:font script="Syrc" typeface="Estrangelo Edessa"/><a:font script="Orya" typeface="Kalinga"/><a:font script="Mlym" typeface="Kartika"/><a:font script="Laoo" typeface="DokChampa"/><a:font script="Sinh" typeface="Iskoola Pota"/><a:font script="Mong" typeface="Mongolian Baiti"/><a:font script="Viet" typeface="Times New Roman"/><a:font script="Uigh" typeface="Microsoft Uighur"/><a:font script="Geor" typeface="Sylfaen"/><a:font script="Armn" typeface="Arial"/><a:font script="Bugi" typeface="Leelawadee UI"/><a:font script="Bopo" typeface="Microsoft JhengHei"/><a:font script="Java" typeface="Javanese Text"/><a:font script="Lisu" typeface="Segoe UI"/><a:font script="Mymr" typeface="Myanmar Text"/><a:font script="Nkoo" typeface="Ebrima"/><a:font script="Olck" typeface="Nirmala UI"/><a:font script="Osma" typeface="Ebrima"/><a:font script="Phag" typeface="Phagspa"/><a:font script="Syrn" typeface="Estrangelo Edessa"/><a:font script="Syrj" typeface="Estrangelo Edessa"/><a:font script="Syre" typeface="Estrangelo Edessa"/><a:font script="Sora" typeface="Nirmala UI"/><a:font script="Tale" typeface="Microsoft Tai Le"/><a:font script="Talu" typeface="Microsoft New Tai Lue"/><a:font script="Tfng" typeface="Ebrima"/></a:majorFont><a:minorFont>${minorFont}<a:ea typeface=""/><a:cs typeface=""/><a:font script="Jpan" typeface="游ゴシック"/><a:font script="Hang" typeface="맑은 고딕"/><a:font script="Hans" typeface="等线"/><a:font script="Hant" typeface="新細明體"/><a:font script="Arab" typeface="Arial"/><a:font script="Hebr" typeface="Arial"/><a:font script="Thai" typeface="Cordia New"/><a:font script="Ethi" typeface="Nyala"/><a:font script="Beng" typeface="Vrinda"/><a:font script="Gujr" typeface="Shruti"/><a:font script="Khmr" typeface="DaunPenh"/><a:font script="Knda" typeface="Tunga"/><a:font script="Guru" typeface="Raavi"/><a:font script="Cans" typeface="Euphemia"/><a:font script="Cher" typeface="Plantagenet Cherokee"/><a:font script="Yiii" typeface="Microsoft Yi Baiti"/><a:font script="Tibt" typeface="Microsoft Himalaya"/><a:font script="Thaa" typeface="MV Boli"/><a:font script="Deva" typeface="Mangal"/><a:font script="Telu" typeface="Gautami"/><a:font script="Taml" typeface="Latha"/><a:font script="Syrc" typeface="Estrangelo Edessa"/><a:font script="Orya" typeface="Kalinga"/><a:font script="Mlym" typeface="Kartika"/><a:font script="Laoo" typeface="DokChampa"/><a:font script="Sinh" typeface="Iskoola Pota"/><a:font script="Mong" typeface="Mongolian Baiti"/><a:font script="Viet" typeface="Arial"/><a:font script="Uigh" typeface="Microsoft Uighur"/><a:font script="Geor" typeface="Sylfaen"/><a:font script="Armn" typeface="Arial"/><a:font script="Bugi" typeface="Leelawadee UI"/><a:font script="Bopo" typeface="Microsoft JhengHei"/><a:font script="Java" typeface="Javanese Text"/><a:font script="Lisu" typeface="Segoe UI"/><a:font script="Mymr" typeface="Myanmar Text"/><a:font script="Nkoo" typeface="Ebrima"/><a:font script="Olck" typeface="Nirmala UI"/><a:font script="Osma" typeface="Ebrima"/><a:font script="Phag" typeface="Phagspa"/><a:font script="Syrn" typeface="Estrangelo Edessa"/><a:font script="Syrj" typeface="Estrangelo Edessa"/><a:font script="Syre" typeface="Estrangelo Edessa"/><a:font script="Sora" typeface="Nirmala UI"/><a:font script="Tale" typeface="Microsoft Tai Le"/><a:font script="Talu" typeface="Microsoft New Tai Lue"/><a:font script="Tfng" typeface="Ebrima"/></a:minorFont></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:lumMod val="110000"/><a:satMod val="105000"/><a:tint val="67000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="103000"/><a:tint val="73000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="109000"/><a:tint val="81000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:satMod val="103000"/><a:lumMod val="102000"/><a:tint val="94000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:satMod val="110000"/><a:lumMod val="100000"/><a:shade val="100000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="99000"/><a:satMod val="120000"/><a:shade val="78000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="12700" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="19050" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst><a:outerShdw blurRad="57150" dist="19050" dir="5400000" algn="ctr" rotWithShape="0"><a:srgbClr val="000000"><a:alpha val="63000"/></a:srgbClr></a:outerShdw></a:effectLst></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"><a:tint val="95000"/><a:satMod val="170000"/></a:schemeClr></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:tint val="93000"/><a:satMod val="150000"/><a:shade val="98000"/><a:lumMod val="102000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:tint val="98000"/><a:satMod val="130000"/><a:shade val="90000"/><a:lumMod val="103000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:shade val="63000"/><a:satMod val="120000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/><a:extLst><a:ext uri="{05A4C25C-085E-4340-85A3-A5531E510DB2}"><thm15:themeFamily xmlns:thm15="http://schemas.microsoft.com/office/thememl/2012/main" name="Office Theme" id="{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}" vid="{4A3C46E8-61CC-4603-A589-7422A47A8E4A}"/></a:ext></a:extLst></a:theme>`;
 }
 /**
  * Create presentation file (`ppt/presentation.xml`)
@@ -6731,6 +6566,50 @@ function makeXmlPresentation(pres) {
     }
     // Done
     strXml += '</p:presentation>';
+    return strXml;
+}
+/**
+ * Create dynamic `[Content_Types].xml` based on actual presentation parts
+ * @param {IPresentationProps} pres - presentation object (this)
+ * @returns {string} XML
+ */
+function makeXmlContentTypes(pres) {
+    let strXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}`;
+    strXml += '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">';
+    // Defaults
+    strXml += '<Default Extension="jpeg" ContentType="image/jpeg"/>';
+    strXml += '<Default Extension="png" ContentType="image/png"/>';
+    strXml += '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
+    strXml += '<Default Extension="svg" ContentType="image/svg+xml"/>';
+    strXml += '<Default Extension="xml" ContentType="application/xml"/>';
+    // Presentation
+    strXml += '<Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/>';
+    // Slide master
+    strXml += '<Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/>';
+    // Slides
+    for (let i = 1; i <= (pres.slides ? pres.slides.length : 0); i++) {
+        strXml += `<Override PartName="/ppt/slides/slide${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`;
+    }
+    // Notes slides (one per slide)
+    for (let i = 1; i <= (pres.slides ? pres.slides.length : 0); i++) {
+        strXml += `<Override PartName="/ppt/notesSlides/notesSlide${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesSlide+xml"/>`;
+    }
+    // Slide layouts
+    for (let i = 1; i <= (pres.slideLayouts ? pres.slideLayouts.length : 0); i++) {
+        strXml += `<Override PartName="/ppt/slideLayouts/slideLayout${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/>`;
+    }
+    // Theme, props and styles
+    strXml += '<Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>';
+    strXml += '<Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/>';
+    strXml += '<Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/>';
+    strXml += '<Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/>';
+    // Notes master (handout master is not produced by generator so omit it)
+    strXml += '<Override PartName="/ppt/notesMasters/notesMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.notesMaster+xml"/>';
+    // Document properties
+    strXml += '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>';
+    strXml += '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>';
+    strXml += '<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>';
+    strXml += '</Types>';
     return strXml;
 }
 /**
@@ -7031,20 +6910,28 @@ class PptxGenJS {
                 zip.folder('ppt/theme');
                 zip.folder('ppt/notesMasters').folder('_rels');
                 zip.folder('ppt/notesSlides').folder('_rels');
-                zip.file('[Content_Types].xml', makeXmlContTypes(this.slides, this.slideLayouts, this.masterSlide)); // TODO: pass only `this` like below! 20200206
-                zip.file('_rels/.rels', makeXmlRootRels());
-                zip.file('docProps/app.xml', makeXmlApp(this.slides, this.company)); // TODO: pass only `this` like below! 20200206
-                zip.file('docProps/core.xml', makeXmlCore(this.title, this.subject, this.author, this.revision)); // TODO: pass only `this` like below! 20200206
+                zip.file('[Content_Types].xml', makeXmlContentTypes(this)); // dynamically generate content-types
+                zip.file('_rels/.rels', CUSTOM_RELS_XML);
+                zip.file('docProps/app.xml', CUSTOM_PROPS_APP_XML); // TODO: pass only `this` like below! 20200206
+                zip.file('docProps/core.xml', CUSTOM_PROPS_CORE_XML); // TODO: pass only `this` like below! 20200206
+                zip.file('docProps/custom.xml', CUSTOM_PROPS_CUSTOM_XML); // TODO: pass only `this` like below! 20200206
                 zip.file('ppt/_rels/presentation.xml.rels', makeXmlPresentationRels(this.slides));
-                zip.file('ppt/theme/theme1.xml', makeXmlTheme(this));
+                zip.file('ppt/theme/theme1.xml', CUSTOM_PPT_THEME1_XML);
                 zip.file('ppt/presentation.xml', makeXmlPresentation(this));
                 zip.file('ppt/presProps.xml', makeXmlPresProps());
                 zip.file('ppt/tableStyles.xml', makeXmlTableStyles());
                 zip.file('ppt/viewProps.xml', makeXmlViewProps());
                 // C: Create a Layout/Master/Rel/Slide file for each SlideLayout and Slide
+                // Always use the custom layout for the default layout (identified by _name === DEF_PRES_LAYOUT_NAME)
                 this.slideLayouts.forEach((layout, idx) => {
-                    zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, makeXmlLayout(layout));
-                    zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, makeXmlSlideLayoutRel(idx + 1, this.slideLayouts));
+                    if (layout._name === DEF_PRES_LAYOUT_NAME) {
+                        zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, CUSTOM_PPT_SLIDE_LAYOUT1_XML);
+                        zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML);
+                    }
+                    else {
+                        zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, makeXmlLayout(layout));
+                        zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, makeXmlSlideLayoutRel(idx + 1, this.slideLayouts));
+                    }
                 });
                 this.slides.forEach((slide, idx) => {
                     zip.file(`ppt/slides/slide${idx + 1}.xml`, makeXmlSlide(slide));
@@ -7054,7 +6941,7 @@ class PptxGenJS {
                     zip.file(`ppt/notesSlides/_rels/notesSlide${idx + 1}.xml.rels`, makeXmlNotesSlideRel(idx + 1));
                 });
                 zip.file('ppt/slideMasters/slideMaster1.xml', makeXmlMaster(this.masterSlide, this.slideLayouts));
-                zip.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', makeXmlMasterRel(this.masterSlide, this.slideLayouts));
+                zip.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', makeXmlSlideMasterRels(this.slideLayouts));
                 zip.file('ppt/notesMasters/notesMaster1.xml', makeXmlNotesMaster());
                 zip.file('ppt/notesMasters/_rels/notesMaster1.xml.rels', makeXmlNotesMasterRel());
                 // D: Create all Rels (images, media, chart data)
@@ -7241,14 +7128,17 @@ class PptxGenJS {
     addSlide(options) {
         // TODO: DEPRECATED: arg0 string "masterSlideName" dep as of 3.2.0
         const masterSlideName = typeof options === 'string' ? options : (options === null || options === void 0 ? void 0 : options.masterName) ? options.masterName : '';
-        let slideLayout = {
-            _name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
-            _presLayout: this.presLayout,
-            _rels: [],
-            _relsChart: [],
-            _relsMedia: [],
-            _slideNum: this.slides.length + 1,
-        };
+        // Default to using the first defined slide layout where possible (ensures slideLayout1 is used)
+        let slideLayout = this.slideLayouts && this.slideLayouts.length > 0
+            ? this.slideLayouts[0]
+            : {
+                _name: this.LAYOUTS[DEF_PRES_LAYOUT].name,
+                _presLayout: this.presLayout,
+                _rels: [],
+                _relsChart: [],
+                _relsMedia: [],
+                _slideNum: this.slides.length + 1,
+            };
         if (masterSlideName) {
             const tmpLayout = this.slideLayouts.filter(layout => layout._name === masterSlideName)[0];
             if (tmpLayout)
