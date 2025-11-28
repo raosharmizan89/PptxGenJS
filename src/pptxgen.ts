@@ -528,9 +528,9 @@ export default class PptxGenJS implements IPresentationProps {
 			zip.file('docProps/app.xml', CUSTOM_PROPS_APP_XML) // TODO: pass only `this` like below! 20200206
 			zip.file('docProps/core.xml', CUSTOM_PROPS_CORE_XML) // TODO: pass only `this` like below! 20200206
 			zip.file('docProps/custom.xml', CUSTOM_PROPS_CUSTOM_XML) // TODO: pass only `this` like below! 20200206
-			zip.file('ppt/_rels/presentation.xml.rels', CUSTOM_PPT_PRESENTATION_RELS_XML)
-			zip.file('ppt/theme/theme1.xml', CUSTOM_PPT_THEME1_XML)
-			zip.file('ppt/presentation.xml', CUSTOM_PPT_PRESENTATION_XML)
+		zip.file('ppt/_rels/presentation.xml.rels', genXml.makeXmlPresentationRels(this.slides))
+		zip.file('ppt/theme/theme1.xml', CUSTOM_PPT_THEME1_XML)
+		zip.file('ppt/presentation.xml', genXml.makeXmlPresentation(this))
 			zip.file('ppt/presProps.xml', genXml.makeXmlPresProps())
 			zip.file('ppt/tableStyles.xml', genXml.makeXmlTableStyles())
 			zip.file('ppt/viewProps.xml', genXml.makeXmlViewProps())
