@@ -1633,8 +1633,8 @@ export function makeXmlMaster (slide: PresSlide, layouts: SlideLayout[]): string
  * @return {string} XML
  */
 export function makeXmlSlideLayoutRel (layoutNumber: number, slideLayouts: SlideLayout[]): string {
-	// If layout 1 is the layout being generated, return the custom rel XML
-	if (layoutNumber === 1) return CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML
+	// If the default layout is being generated, return the custom rel XML
+	if (slideLayouts[layoutNumber - 1] && slideLayouts[layoutNumber - 1]._name === DEF_PRES_LAYOUT_NAME) return CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML
 
 	return slideObjectRelationsToXml(slideLayouts[layoutNumber - 1], [
 		{

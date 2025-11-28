@@ -536,9 +536,9 @@ export default class PptxGenJS implements IPresentationProps {
 			zip.file('ppt/viewProps.xml', genXml.makeXmlViewProps())
 
 			// C: Create a Layout/Master/Rel/Slide file for each SlideLayout and Slide
-			// Always use the custom layout for the first slide layout
+			// Always use the custom layout for the default layout (identified by _name === DEF_PRES_LAYOUT_NAME)
 			this.slideLayouts.forEach((layout, idx) => {
-				if (idx === 0) {
+				if (layout._name === DEF_PRES_LAYOUT_NAME) {
 					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, CUSTOM_PPT_SLIDE_LAYOUT1_XML)
 					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML)
 				} else {
