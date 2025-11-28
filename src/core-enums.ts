@@ -22,7 +22,8 @@ export const DEF_CHART_GRIDLINE: OptsChartGridLine = { color: '888888', style: '
 export const DEF_FONT_COLOR = '000000'
 export const DEF_FONT_SIZE = 12
 export const DEF_FONT_TITLE_SIZE = 18
-export const DEF_PRES_LAYOUT = 'LAYOUT_16x9'
+// Default presentation layout: use wide 13.333" x 7.5" (LAYOUT_WIDE)
+export const DEF_PRES_LAYOUT = 'LAYOUT_WIDE'
 export const DEF_PRES_LAYOUT_NAME = 'DEFAULT'
 export const DEF_SHAPE_LINE_COLOR = '333333'
 export const DEF_SHAPE_SHADOW = { type: 'outer', blur: 3, offset: 23000 / 12700, angle: 90, color: '000000', opacity: 0.35, rotateWithShape: true }
