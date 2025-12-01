@@ -1455,9 +1455,10 @@ export function makeXmlContTypes (slides: PresSlide[], slideLayouts: SlideLayout
  */
 export function makeXmlRootRels (): string {
 	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-		<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>
+		<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
 		<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>
-		<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/>
+		<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>
+		<Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/>
 		</Relationships>`
 }
 
@@ -1545,8 +1546,15 @@ export function makeXmlPresentationRels (slides: PresSlide[]): string {
 		`<Relationship Id="rId${intRelNum + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/presProps" Target="presProps.xml"/>` +
 		`<Relationship Id="rId${intRelNum + 2}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/viewProps" Target="viewProps.xml"/>` +
 		`<Relationship Id="rId${intRelNum + 3}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/>` +
-		`<Relationship Id="rId${intRelNum + 4}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>` +
-		'</Relationships>'
+		`<Relationship Id="rId${intRelNum + 4}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/tableStyles" Target="tableStyles.xml"/>`
+
+	// Add relationships to customXml items to mirror SharePoint metadata structure
+	strXml +=
+		`<Relationship Id="rId${intRelNum + 5}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item1.xml"/>` +
+		`<Relationship Id="rId${intRelNum + 6}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item2.xml"/>` +
+		`<Relationship Id="rId${intRelNum + 7}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/customXml" Target="../customXml/item3.xml"/>`
+
+	strXml += '</Relationships>'
 
 	return strXml
 }
@@ -1728,7 +1736,7 @@ export function makeXmlMasterRel (masterSlide: PresSlide, slideLayouts: SlideLay
  */
 export function makeXmlNotesMasterRel (): string {
 	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-		<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/>
+		<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme2.xml"/>
 		</Relationships>`
 }
 
@@ -1740,10 +1748,12 @@ export function makeXmlNotesMasterRel (): string {
  * @return {number} slide number
  */
 function getLayoutIdxForSlide (slides: PresSlide[], slideLayouts: SlideLayout[], slideNumber: number): number {
-	// Forcing all slides to use slideLayout1
-	// This ensures all slides' rels will always reference `slideLayouts/slideLayout1.xml`.
-	// NOTE: Avoid accessing slide._slideLayout._name (can be null), returning a fixed 1 is safe
-	return 1
+	const slide = slides[slideNumber - 1]
+	if (!slide) return 1
+	const layoutName = slide._slideLayout?._name
+	if (!layoutName) return 1
+	const idx = slideLayouts.findIndex(l => l._name === layoutName)
+	return idx >= 0 ? idx + 1 : 1
 }
 
 // XML-GEN: Last 5 functions create root /ppt files
@@ -1774,17 +1784,15 @@ export function makeXmlPresentation (pres: IPresentationProps): string {
 	// STEP 1: Add slide master (SPEC: tag 1 under <presentation>)
 	strXml += '<p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst>'
 
-	// STEP 2: Add all Slides (SPEC: tag 3 under <presentation>)
+	// STEP 2: Add Notes Master (SPEC: tag 2 under <presentation>)
+	// IMPORTANT: PowerPoint 2510+ requires notesMasterIdLst BEFORE sldIdLst to avoid repair prompt
+	// (NOTE: length+2 is from `presentation.xml.rels` func (since we have to match this rId, we just use same logic))
+	strXml += `<p:notesMasterIdLst><p:notesMasterId r:id="rId${pres.slides.length + 2}"/></p:notesMasterIdLst>`
+
+	// STEP 3: Add all Slides (SPEC: tag 3 under <presentation>)
 	strXml += '<p:sldIdLst>'
 	pres.slides.forEach(slide => (strXml += `<p:sldId id="${slide._slideId}" r:id="rId${slide._rId}"/>`))
 	strXml += '</p:sldIdLst>'
-
-	// STEP 3: Add Notes Master (SPEC: tag 2 under <presentation>)
-	// (NOTE: length+2 is from `presentation.xml.rels` func (since we have to match this rId, we just use same logic))
-	// IMPORTANT: In this order (matches PPT2019) PPT will give corruption message on open!
-	// IMPORTANT: Placing this before `<p:sldIdLst>` causes warning in modern powerpoint!
-	// IMPORTANT: Presentations open without warning Without this line, however, the pres isnt preview in Finder anymore or viewable in iOS!
-	strXml += `<p:notesMasterIdLst><p:notesMasterId r:id="rId${pres.slides.length + 2}"/></p:notesMasterIdLst>`
 
 	// STEP 4: Add sizes
 	strXml += `<p:sldSz cx="${pres.presLayout.width}" cy="${pres.presLayout.height}"/>`
@@ -1812,6 +1820,9 @@ export function makeXmlPresentation (pres: IPresentationProps): string {
 		strXml += '</p14:sectionLst></p:ext>'
 		strXml += '<p:ext uri="{EFAFB233-063F-42B5-8137-9DF3F51BA10A}"><p15:sldGuideLst xmlns:p15="http://schemas.microsoft.com/office/powerpoint/2012/main"/></p:ext>'
 		strXml += '</p:extLst>'
+	} else {
+		// Add minimal extLst even without sections - required by PowerPoint 2510+
+		strXml += '<p:extLst><p:ext uri="{EFAFB233-063F-42B5-8137-9DF3F51BA10A}"><p15:sldGuideLst xmlns:p15="http://schemas.microsoft.com/office/powerpoint/2012/main"/></p:ext></p:extLst>'
 	}
 
 	// Done
@@ -1858,6 +1869,8 @@ export function makeXmlContentTypes(pres: IPresentationProps): string {
 
 	// Theme, props and styles
 	strXml += '<Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>'
+	// Include theme2 used by notesMaster (PowerPoint may expect a separate theme part for notes)
+	strXml += '<Override PartName="/ppt/theme/theme2.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/>'
 	strXml += '<Override PartName="/ppt/presProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presProps+xml"/>'
 	strXml += '<Override PartName="/ppt/viewProps.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.viewProps+xml"/>'
 	strXml += '<Override PartName="/ppt/tableStyles.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.tableStyles+xml"/>'
@@ -1870,6 +1883,11 @@ export function makeXmlContentTypes(pres: IPresentationProps): string {
 	strXml += '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'
 	strXml += '<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/>'
 
+	// SharePoint customXml properties (itemProps*.xml) content types
+	strXml += '<Override PartName="/customXml/itemProps1.xml" ContentType="application/vnd.openxmlformats-officedocument.customXmlProperties+xml"/>'
+	strXml += '<Override PartName="/customXml/itemProps2.xml" ContentType="application/vnd.openxmlformats-officedocument.customXmlProperties+xml"/>'
+	strXml += '<Override PartName="/customXml/itemProps3.xml" ContentType="application/vnd.openxmlformats-officedocument.customXmlProperties+xml"/>'
+
 	strXml += '</Types>'
 	return strXml
 }
@@ -1879,7 +1897,7 @@ export function makeXmlContentTypes(pres: IPresentationProps): string {
  * @return {string} XML
  */
 export function makeXmlPresProps (): string {
-	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<p:presentationPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"/>`
+	return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${CRLF}<p:presentationPr xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:extLst><p:ext uri="{E76CE94A-603C-4142-B9EB-6D1370010A27}"><p14:discardImageEditData xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" val="0"/></p:ext><p:ext uri="{D31A062A-798A-4329-ABDD-BBA856620510}"><p14:defaultImageDpi xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" val="220"/></p:ext><p:ext uri="{FD5EFAAD-0ECE-453E-9831-46B23BE46B34}"><p15:chartTrackingRefBased xmlns:p15="http://schemas.microsoft.com/office/powerpoint/2012/main" val="0"/></p:ext></p:extLst></p:presentationPr>`
 }
 
 /**

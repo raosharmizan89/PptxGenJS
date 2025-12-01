@@ -103,8 +103,18 @@ import {
 	CUSTOM_PPT_THEME1_XML,
 	CUSTOM_PPT_SLIDE_MASTER_XML,
 	CUSTOM_PPT_SLIDE_MASTER_REL_XML,
+	CUSTOMXML_ITEM1,
+	CUSTOMXML_ITEM2,
+	CUSTOMXML_ITEM3,
+	CUSTOMXML_ITEMPROPS1,
+	CUSTOMXML_ITEMPROPS2,
+	CUSTOMXML_ITEMPROPS3,
+	CUSTOMXML_ITEM1_RELS,
+	CUSTOMXML_ITEM2_RELS,
+	CUSTOMXML_ITEM3_RELS,
 } from './cust-xml'
-import { CUSTOM_PPT_SLIDE_LAYOUT1_XML, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML } from './cust-xml-slide-layout1'
+import { CUSTOM_SLIDE_LAYOUT_DEFS } from './cust-xml-slide-layouts'
+import { CUSTOM_SLIDE_LAYOUT_RELS } from './cust-xml-slide-layout-rels'
 import * as genCharts from './gen-charts'
 import * as genObj from './gen-objects'
 import * as genMedia from './gen-media'
@@ -115,6 +125,55 @@ const VERSION = '4.0.1'
 
 export default class PptxGenJS implements IPresentationProps {
 	// Property getters/setters
+
+	/**
+	 * Remove only broken images from layout/notes XML:
+	 * - Strips <p:pic> blocks that either:
+	 *   a) contain one or more <a:blip r:embed="rIdX"> where rIdX is missing in rels, or
+	 *   b) contain no <a:blip> at all (an empty picture placeholder that renders "This picture can't be displayed").
+	 * - Strips <p:sp> blocks only when they contain blip embeds with missing rels.
+	 * - Preserves true placeholders (e.g., <p:ph type="pic"/>) in all cases.
+	 */
+	private removeBrokenPics(xml: string, relsXml?: string): string {
+		if (!xml || typeof xml !== 'string') return xml
+		// Collect known relationship Ids from relsXml (if provided)
+		const knownIds = new Set<string>()
+		if (relsXml && typeof relsXml === 'string') {
+			const relRe = /<Relationship[^>]*\bId="([^"]+)"[^>]*>/g
+			let m: RegExpExecArray
+			while ((m = relRe.exec(relsXml)) !== null) {
+				knownIds.add(m[1])
+			}
+		}
+
+		let out = xml
+
+		// Helper to decide if a block has an embedded blip without a valid rel
+		const hasBrokenBlip = (block: string): boolean => {
+			const embeds = [...block.matchAll(/\br:embed="([^"]+)"/g)].map(mm => mm[1])
+			if (embeds.length === 0) return false
+			// If no relsXml is provided, any embed is considered broken in these layout/notes contexts
+			if (knownIds.size === 0) return true
+			return embeds.some(id => !knownIds.has(id))
+		}
+
+		// 1) Remove <p:pic> blocks with broken blips OR with no <a:blip> at all
+		out = out.replace(/<p:pic\b[\s\S]*?<\/p:pic>/g, (seg: string) => {
+			const hasAnyBlip = /<a:blip\b/i.test(seg)
+			if (!hasAnyBlip) return ''
+			return hasBrokenBlip(seg) ? '' : seg
+		})
+
+		// 2) Remove <p:sp> blocks that include blip fills with broken embeds (but keep pure placeholders)
+		out = out.replace(/<p:sp\b[\s\S]*?<\/p:sp>/g, (seg: string) => {
+			// Keep if it's a placeholder-only shape, or has no blip embeds
+			if (seg.includes('<p:ph')) return seg
+			return hasBrokenBlip(seg) ? '' : seg
+		})
+
+		return out
+	}
+
 
 	/**
 	 * Presentation layout name
@@ -353,20 +412,34 @@ export default class PptxGenJS implements IPresentationProps {
 		}
 		this._rtlMode = false
 		//
-		this._slideLayouts = [
-			{
+		// Initialize slide layouts from consolidated registry names (order defines slideLayoutN)
+		this._slideLayouts = (CUSTOM_SLIDE_LAYOUT_DEFS && CUSTOM_SLIDE_LAYOUT_DEFS.length > 0)
+			? CUSTOM_SLIDE_LAYOUT_DEFS.map((def, idx) => ({
 				_margin: DEF_SLIDE_MARGIN_IN,
-				_name: DEF_PRES_LAYOUT_NAME,
+				_name: def.name,
 				_presLayout: this._presLayout,
 				_rels: [],
 				_relsChart: [],
 				_relsMedia: [],
 				_slide: null,
-				_slideNum: 1000,
+				_slideNum: 1000 + idx + 1,
 				_slideNumberProps: null,
 				_slideObjects: [],
-			},
-		]
+			}))
+			: [
+				{
+					_margin: DEF_SLIDE_MARGIN_IN,
+					_name: DEF_PRES_LAYOUT_NAME,
+					_presLayout: this._presLayout,
+					_rels: [],
+					_relsChart: [],
+					_relsMedia: [],
+					_slide: null,
+					_slideNum: 1000,
+					_slideNumberProps: null,
+					_slideObjects: [],
+				},
+			]
 		this._slides = []
 		this._sections = []
 		this._masterSlide = {
@@ -424,8 +497,10 @@ export default class PptxGenJS implements IPresentationProps {
 		// 1: Add slideNumber to slideMaster1.xml
 		this.masterSlide._slideNumberProps = slideNum
 
-		// 2: Add slideNumber to DEF_PRES_LAYOUT_NAME layout
-		this.slideLayouts.filter(layout => layout._name === DEF_PRES_LAYOUT_NAME)[0]._slideNumberProps = slideNum
+		// 2: Add slideNumber to first defined layout (was DEF_PRES_LAYOUT_NAME)
+		if (this.slideLayouts && this.slideLayouts.length > 0) {
+			this.slideLayouts[0]._slideNumberProps = slideNum
+		}
 	}
 
 	/**
@@ -524,39 +599,68 @@ export default class PptxGenJS implements IPresentationProps {
 			zip.folder('ppt/notesMasters').folder('_rels')
 			zip.folder('ppt/notesSlides').folder('_rels')
 			zip.file('[Content_Types].xml', genXml.makeXmlContentTypes(this)) // dynamically generate content-types
-			zip.file('_rels/.rels', CUSTOM_RELS_XML)
+			zip.file('_rels/.rels', genXml.makeXmlRootRels())
 			zip.file('docProps/app.xml', CUSTOM_PROPS_APP_XML) // TODO: pass only `this` like below! 20200206
 			zip.file('docProps/core.xml', CUSTOM_PROPS_CORE_XML) // TODO: pass only `this` like below! 20200206
 			zip.file('docProps/custom.xml', CUSTOM_PROPS_CUSTOM_XML) // TODO: pass only `this` like below! 20200206
+
+			// Add customXml files (SharePoint metadata)
+			zip.folder('customXml').folder('_rels')
+			zip.file('customXml/item1.xml', CUSTOMXML_ITEM1)
+			zip.file('customXml/item2.xml', CUSTOMXML_ITEM2)
+			zip.file('customXml/item3.xml', CUSTOMXML_ITEM3)
+			zip.file('customXml/itemProps1.xml', CUSTOMXML_ITEMPROPS1)
+			zip.file('customXml/itemProps2.xml', CUSTOMXML_ITEMPROPS2)
+			zip.file('customXml/itemProps3.xml', CUSTOMXML_ITEMPROPS3)
+			zip.file('customXml/_rels/item1.xml.rels', CUSTOMXML_ITEM1_RELS)
+			zip.file('customXml/_rels/item2.xml.rels', CUSTOMXML_ITEM2_RELS)
+			zip.file('customXml/_rels/item3.xml.rels', CUSTOMXML_ITEM3_RELS)
+
 		zip.file('ppt/_rels/presentation.xml.rels', genXml.makeXmlPresentationRels(this.slides))
 		zip.file('ppt/theme/theme1.xml', CUSTOM_PPT_THEME1_XML)
+		// Add theme2 identical to theme1 for notes master to avoid repair prompt
+		zip.file('ppt/theme/theme2.xml', CUSTOM_PPT_THEME1_XML)
 		zip.file('ppt/presentation.xml', genXml.makeXmlPresentation(this))
 			zip.file('ppt/presProps.xml', genXml.makeXmlPresProps())
 			zip.file('ppt/tableStyles.xml', genXml.makeXmlTableStyles())
 			zip.file('ppt/viewProps.xml', genXml.makeXmlViewProps())
 
 			// C: Create a Layout/Master/Rel/Slide file for each SlideLayout and Slide
-			// Always use the custom layout for the default layout (identified by _name === DEF_PRES_LAYOUT_NAME)
-			this.slideLayouts.forEach((layout, idx) => {
-				if (layout._name === DEF_PRES_LAYOUT_NAME) {
-					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, CUSTOM_PPT_SLIDE_LAYOUT1_XML)
-					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML)
+			// If a custom registry entry exists for a given index, use that exact XML; otherwise generate dynamically
+			this.slideLayouts.forEach((_layout, idx) => {
+				const def = CUSTOM_SLIDE_LAYOUT_DEFS[idx]
+				const relDef = CUSTOM_SLIDE_LAYOUT_RELS[idx]
+				if (def && def.xml) {
+					// Remove only broken image instances from custom layout XML (preserve placeholders)
+					const sanitizedLayout = this.removeBrokenPics(def.xml, relDef?.relsXml)
+					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, sanitizedLayout)
+					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, relDef?.relsXml || genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts))
 				} else {
-					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, genXml.makeXmlLayout(layout))
-					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts))
+					const genLayoutXml = genXml.makeXmlLayout(this.slideLayouts[idx])
+					const genLayoutRels = genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts)
+					const sanitizedLayout = this.removeBrokenPics(genLayoutXml, genLayoutRels)
+					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, sanitizedLayout)
+					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, genLayoutRels)
 				}
 			})
 			this.slides.forEach((slide, idx) => {
-				zip.file(`ppt/slides/slide${idx + 1}.xml`, genXml.makeXmlSlide(slide))
-				zip.file(`ppt/slides/_rels/slide${idx + 1}.xml.rels`, genXml.makeXmlSlideRel(this.slides, this.slideLayouts, idx + 1))
-				// Create all slide notes related items. Notes of empty strings are created for slides which do not have notes specified, to keep track of _rels.
-				zip.file(`ppt/notesSlides/notesSlide${idx + 1}.xml`, genXml.makeXmlNotesSlide(slide))
-				zip.file(`ppt/notesSlides/_rels/notesSlide${idx + 1}.xml.rels`, genXml.makeXmlNotesSlideRel(idx + 1))
+				const slideXml = genXml.makeXmlSlide(slide)
+				const slideRels = genXml.makeXmlSlideRel(this.slides, this.slideLayouts, idx + 1)
+				// Do NOT sanitize slide XML: slides can legitimately embed images with valid rels
+				zip.file(`ppt/slides/slide${idx + 1}.xml`, slideXml)
+				zip.file(`ppt/slides/_rels/slide${idx + 1}.xml.rels`, slideRels)
+				// Create all slide notes related items. For notes, strip only broken images if any
+				const notesRel = genXml.makeXmlNotesSlideRel(idx + 1)
+				const notesXml = this.removeBrokenPics(genXml.makeXmlNotesSlide(slide), notesRel)
+				zip.file(`ppt/notesSlides/notesSlide${idx + 1}.xml`, notesXml)
+				zip.file(`ppt/notesSlides/_rels/notesSlide${idx + 1}.xml.rels`, notesRel)
 			})
 			zip.file('ppt/slideMasters/slideMaster1.xml', genXml.makeXmlMaster(this.masterSlide, this.slideLayouts))
 			zip.file('ppt/slideMasters/_rels/slideMaster1.xml.rels', genXml.makeXmlSlideMasterRels(this.slideLayouts))
-			zip.file('ppt/notesMasters/notesMaster1.xml', genXml.makeXmlNotesMaster())
-			zip.file('ppt/notesMasters/_rels/notesMaster1.xml.rels', genXml.makeXmlNotesMasterRel())
+			const notesMasterRel = genXml.makeXmlNotesMasterRel()
+			const notesMasterXml = this.removeBrokenPics(genXml.makeXmlNotesMaster(), notesMasterRel)
+			zip.file('ppt/notesMasters/notesMaster1.xml', notesMasterXml)
+			zip.file('ppt/notesMasters/_rels/notesMaster1.xml.rels', notesMasterRel)
 
 			// D: Create all Rels (images, media, chart data)
 			this.slideLayouts.forEach(layout => {
