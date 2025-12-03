@@ -1070,9 +1070,23 @@ export function addTextDefinition(target: PresSlide, text: TextProps[], opts: Te
 			itemOpts._bodyProp.vert = itemOpts.vert || null // VALS: [eaVert,horz,mongolianVert,vert,vert270,wordArtVert,wordArtVertRtl]
 			itemOpts._bodyProp.wrap = typeof itemOpts.wrap === 'boolean' ? itemOpts.wrap : true
 
-			// E: Inset
+			// E: Inset/Margin
+			// Handle `margin` option (current standard)
+			if (itemOpts.margin !== undefined && itemOpts.margin !== null) {
+				if (Array.isArray(itemOpts.margin)) {
+					itemOpts._bodyProp.lIns = inch2Emu(itemOpts.margin[0] || 0)
+					itemOpts._bodyProp.rIns = inch2Emu(itemOpts.margin[1] || 0)
+					itemOpts._bodyProp.bIns = inch2Emu(itemOpts.margin[2] || 0)
+					itemOpts._bodyProp.tIns = inch2Emu(itemOpts.margin[3] || 0)
+				} else if (typeof itemOpts.margin === 'number') {
+					itemOpts._bodyProp.lIns = inch2Emu(itemOpts.margin)
+					itemOpts._bodyProp.rIns = inch2Emu(itemOpts.margin)
+					itemOpts._bodyProp.bIns = inch2Emu(itemOpts.margin)
+					itemOpts._bodyProp.tIns = inch2Emu(itemOpts.margin)
+				}
+			}
 			// @deprecated 3.10.0 (`inset` - use `margin`)
-			if ((itemOpts.inset && !isNaN(Number(itemOpts.inset))) || itemOpts.inset === 0) {
+			else if ((itemOpts.inset && !isNaN(Number(itemOpts.inset))) || itemOpts.inset === 0) {
 				itemOpts._bodyProp.lIns = inch2Emu(itemOpts.inset)
 				itemOpts._bodyProp.rIns = inch2Emu(itemOpts.inset)
 				itemOpts._bodyProp.tIns = inch2Emu(itemOpts.inset)

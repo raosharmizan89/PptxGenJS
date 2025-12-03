@@ -1,124 +1,73 @@
-# Fix Summary: PowerPoint Repair Prompt Issue
+# Fix Summary - Placeholder Issue Resolution
 
-## Problem Identified
-The generated PPTX files were triggering a repair prompt in PowerPoint despite initial reports showing "0 image references". Investigation revealed two critical issues:
+## ✅ COMPLETED TASKS
 
-1. **Incomplete Picture Placeholder Removal**: The parser was only removing `<a:blipFill>` elements but leaving the entire `<p:sp>` picture placeholder structure intact, creating orphaned references
-2. **Hardcoded Copyright Year**: Copyright text contained "2025" instead of being dynamically generated
+### 1. ✅ Created Regeneration Script
+**File:** `tools/generate-templates-with-coords.mjs`
+- Reads `step_templates.data.json` (coordinates in inches)
+- Generates code with explicit x, y, w, h values
+- Maps placeholder names to ctx variables
+- Handles icons (data:) vs images (path:) correctly
+- Outputs to `step_templates.llm.json`
 
-## Root Cause
+### 2. ✅ Regenerated Template File
+**File:** `tools/step_templates.llm.json`
+- All 56 layouts processed ✅
+- All code uses coordinate-based positioning ✅
+- Icons use `data:` property ✅
+- Images use `path:` property ✅
+- NO placeholder targeting syntax ✅
 
-### Issue 1: Orphaned Picture Placeholders
-Original XML structure:
-```xml
-<p:sp>
-  <p:nvSpPr>
-    <p:cNvPr id="8" name="Picture Placeholder 7">
-  </p:nvSpPr>
-  <p:nvPr>
-    <p:ph type="pic" sz="quarter" idx="15" hasCustomPrompt="1"/>
-  </p:nvPr>
-  <p:spPr>
-    <a:xfrm>...</a:xfrm>
-    <a:prstGeom prst="rect">
-      <a:avLst/>
-    </a:prstGeom>
-    <!-- <a:blipFill> was stripped here, leaving incomplete structure -->
-  </p:spPr>
-  <p:txBody>
-    <a:t>[Insert photo]</a:t>  <!-- "The picture can't be displayed" message -->
-  </p:txBody>
-</p:sp>
+**Example output:**
+```json
+{
+  "name": "Content - no subtitle",
+  "code": [
+    "slide.addText(ctx.title, { x: 0.62, y: 0.38, w: 12.096, h: 0.904 })",
+    "slide.addText(ctx.body, { x: 0.62, y: 1.375, w: 12.1, h: 4.75 })",
+    "slide.addText(ctx.footnote, { x: 0.62, y: 6.219, w: 12.096, h: 0.575 })"
+  ]
+}
 ```
 
-**Problem**: The `<p:sp>` element with `type="pic"` remained but had no image data, causing PowerPoint to detect a malformed picture placeholder.
+### 3. ✅ Created Implementation Guides
+**Files:**
+- `PLACEHOLDER_FIX_ANALYSIS.md` - Complete problem analysis
+- `IMPLEMENTATION_GUIDE.md` - Step-by-step deployment guide
 
-### Issue 2: Hardcoded Year
-Multiple layouts contained hardcoded copyright text:
-- `© 2025 S&P Global.`
-- `Copyright © 2025 S&P Global`
-- `© 2025 by S&P Global Inc.`
+---
 
-## Solution Implemented
+## 🔄 REMAINING TASKS
 
-### Fix 1: Remove Entire Picture Placeholder Blocks
-Updated `stripImagesFromLayout()` function in `tools/parse-raw-layouts.mjs` to:
+### Task 1: Update workflow.txt - step_generateSlide prompt
 
-```javascript
-// Remove entire picture placeholder <p:sp> elements that have type="pic"
-cleaned = cleaned.replace(/<p:sp>(?:[^<]|<(?!\/p:sp>))*?<p:ph\s+type="pic"(?:[^<]|<(?!\/p:sp>))*?<\/p:sp>/gs, '');
+Add coordinate-based positioning rules to system prompt.
 
-// Also remove standalone <p:pic> elements
-cleaned = cleaned.replace(/<p:pic>.*?<\/p:pic>/gs, '');
-```
+### Task 2: Copy New Templates to Workflow
 
-**Result**: Complete removal of picture placeholder structures, eliminating orphaned references and "[Insert photo]" text.
+Replace `step_templates:data` content with new `step_templates.llm.json`
 
-### Fix 2: Dynamic Copyright Year
-Added dynamic year replacement:
+### Task 3: Test
 
-```javascript
-const currentYear = new Date().getFullYear();
-cleaned = cleaned.replace(/© 2025 S&amp;P Global/g, `© ${currentYear} S&amp;P Global`);
-cleaned = cleaned.replace(/Copyright © 2025 S&amp;P Global/g, `Copyright © ${currentYear} S&amp;P Global`);
-cleaned = cleaned.replace(/© 2025 by S&amp;P Global/g, `© ${currentYear} by S&amp;P Global`);
-```
+Test simple content, icon, and photo layouts.
 
-**Result**: Copyright year now updates automatically based on system date.
+---
 
-## Validation Results
+## 📁 FILES MODIFIED
 
-### Before Fix
-- Picture placeholders: **8 instances** found
-- "[Insert photo]" text: **8 instances** found
-- File size: **920KB**
-- PowerPoint status: **⚠️ Asks for repair**
+1. ✅ `tools/generate-templates-with-coords.mjs` - NEW
+2. ✅ `tools/step_templates.llm.json` - REGENERATED (56 layouts with coordinates)
+3. ✅ `PLACEHOLDER_FIX_ANALYSIS.md` - NEW
+4. ✅ `IMPLEMENTATION_GUIDE.md` - NEW
+5. 🔄 `workflow.txt` - NEEDS UPDATE
 
-### After Fix
-- Picture placeholders: **0 instances** ✅
-- "[Insert photo]" text: **0 instances** ✅
-- File size: **900KB** (20KB reduction)
-- ZIP archive test: **No errors detected** ✅
-- PowerPoint status: **To be verified by user**
+---
 
-## Files Modified
-1. `tools/parse-raw-layouts.mjs` - Enhanced image stripping logic
-2. `src/cust-xml-slide-layouts.ts` - Regenerated with fixed layouts
-3. `src/cust-xml-slide-layout-rels.ts` - Regenerated (no changes)
-4. `comprehensive-test.pptx` - Test file regenerated
+## 🚀 NEXT STEPS
 
-## Test Commands Used
+1. Copy updated `step_templates.llm.json` into workflow.txt
+2. Update `step_generateSlide` system prompt with coordinate rules
+3. Test with simple presentation
+4. Validate in PowerPoint
 
-```bash
-# Regenerate TypeScript registry files
-node tools/parse-raw-layouts.mjs
-
-# Rebuild library
-npm run build
-
-# Generate test PPTX
-node test-all-layouts.mjs
-
-# Verify picture placeholders removed
-unzip -p comprehensive-test.pptx ppt/slideLayouts/slideLayout11.xml | grep -i 'picture\|blip\|image\|\[Insert'
-
-# Verify copyright year updated
-unzip -p comprehensive-test.pptx ppt/slideLayouts/slideLayout11.xml | grep -i "2025"
-
-# Test archive integrity
-unzip -t comprehensive-test.pptx
-```
-
-## Expected Outcome
-The generated `comprehensive-test.pptx` file should now:
-- ✅ Open in PowerPoint WITHOUT any repair prompt
-- ✅ Display 57 slides (56 custom + 1 default)
-- ✅ Show dynamic copyright year (currently 2025, will update automatically next year)
-- ✅ Have no visible images or "[Insert photo]" placeholders
-- ✅ Maintain all layout structure for dynamic content
-
-## Next Steps for User
-1. Open `comprehensive-test.pptx` in PowerPoint
-2. Verify it opens without repair prompt
-3. If successful, the fix is complete
-4. If still seeing issues, check PowerPoint error details for specific XML validation messages
+**Estimated time:** 15-30 minutes
