@@ -240,7 +240,8 @@ export default class Slide {
 	 */
 	addText(text: string | TextProps[], options?: TextPropsOptions): Slide {
 		const textParam = typeof text === 'string' || typeof text === 'number' ? [{ text, options }] : text
-		genObj.addTextDefinition(this, textParam, options, false)
+		const isPlaceholder = options?.placeholder ? true : false
+		genObj.addTextDefinition(this, textParam, options, isPlaceholder)
 		return this
 	}
 }

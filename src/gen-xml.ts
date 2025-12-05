@@ -43,7 +43,6 @@ import {
 	valToPts,
 } from './gen-utils'
 import { CUSTOM_PPT_SLIDE_MASTER_REL_XML, CUSTOM_PPT_SLIDE_MASTER_XML } from './cust-xml'
-import { CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML } from './cust-xml-slide-layout1'
 
 const ImageSizingXml = {
 	cover: function (imgSize: { w: number, h: number }, boxDim: { w: number, h: number, x: number, y: number }) {
@@ -144,8 +143,9 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 		let imgWidth = cx
 		let imgHeight = cy
 
-		// If using a placeholder then inherit it's position
-		if (placeholderObj) {
+		// PATCH: If using a placeholder, inherit coordinates from layout UNLESS it's a user-defined placeholder
+		// For user-defined placeholders in layouts, we need the coordinates. For content targeting placeholders, we don't.
+		if (placeholderObj && slideItemObj._type !== SLIDE_OBJECT_TYPES.placeholder) {
 			if (placeholderObj.options.x || placeholderObj.options.x === 0) x = getSmartParseNumber(placeholderObj.options.x, 'X', slide._presLayout)
 			if (placeholderObj.options.y || placeholderObj.options.y === 0) y = getSmartParseNumber(placeholderObj.options.y, 'Y', slide._presLayout)
 			if (placeholderObj.options.w || placeholderObj.options.w === 0) cx = getSmartParseNumber(placeholderObj.options.w, 'X', slide._presLayout)
@@ -420,15 +420,29 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 					strSlideXml += `<a:hlinkClick r:id="rId${slideItemObj.options.hyperlink._rId}" tooltip="${slideItemObj.options.hyperlink.tooltip ? encodeXmlEntities(slideItemObj.options.hyperlink.tooltip) : ''}" action="ppaction://hlinksldjump"/>`
 				}
 				// </Hyperlink>
-				strSlideXml += '</p:cNvPr>'
-				strSlideXml += '<p:cNvSpPr' + (slideItemObj.options?.isTextBox ? ' txBox="1"/>' : '/>')
-				strSlideXml += `<p:nvPr>${slideItemObj._type === 'placeholder' ? genXmlPlaceholder(slideItemObj) : genXmlPlaceholder(placeholderObj)}</p:nvPr>`
-				strSlideXml += '</p:nvSpPr><p:spPr>'
+			strSlideXml += '</p:cNvPr>'
+			strSlideXml += '<p:cNvSpPr' + (slideItemObj.options?.isTextBox ? ' txBox="1"/>' : '/>')
+			strSlideXml += `<p:nvPr>${slideItemObj._type === 'placeholder' ? genXmlPlaceholder(slideItemObj) : genXmlPlaceholder(placeholderObj)}</p:nvPr>`
+			strSlideXml += '</p:nvSpPr>'
+			
+			// PATCH: When content is a placeholder, omit shape properties entirely 
+			// to let PowerPoint inherit coordinates and formatting from the layout
+			const fs = require('fs')
+			fs.appendFileSync('DEBUG.txt', `_type="${slideItemObj._type}", SLIDE_OBJECT_TYPES.placeholder="${SLIDE_OBJECT_TYPES.placeholder}", match=${slideItemObj._type === SLIDE_OBJECT_TYPES.placeholder}\n`)
+			const isPlaceholder = slideItemObj._type === SLIDE_OBJECT_TYPES.placeholder
+			
+			if (isPlaceholder) {
+				// Use empty self-closing tag for placeholders - coordinates inherit from layout
+				fs.appendFileSync('DEBUG.txt', `PLACEHOLDER: Omitting coords for ${slideItemObj.options?.objectName}\n`)
+				strSlideXml += '<p:spPr/>'
+			} else {
+				fs.appendFileSync('DEBUG.txt', `NOT PLACEHOLDER: Adding coords for ${slideItemObj.options?.objectName}\n`)
+				// Add full shape properties for non-placeholder content
+				strSlideXml += '<p:spPr>'
 				strSlideXml += `<a:xfrm${locationAttr}>`
 				strSlideXml += `<a:off x="${x}" y="${y}"/>`
 				strSlideXml += `<a:ext cx="${cx}" cy="${cy}"/></a:xfrm>`
-
-				if (slideItemObj.shape === 'custGeom') {
+			}				if (!isPlaceholder && slideItemObj.shape === 'custGeom') {
 					strSlideXml += '<a:custGeom><a:avLst />'
 					strSlideXml += '<a:gdLst>'
 					strSlideXml += '</a:gdLst>'
@@ -486,7 +500,7 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 					strSlideXml += '</a:path>'
 					strSlideXml += '</a:pathLst>'
 					strSlideXml += '</a:custGeom>'
-				} else {
+				} else if (!isPlaceholder) {
 					strSlideXml += '<a:prstGeom prst="' + slideItemObj.shape + '"><a:avLst>'
 					if (slideItemObj.options.rectRadius) {
 						strSlideXml += `<a:gd name="adj" fmla="val ${Math.round((slideItemObj.options.rectRadius * EMU * 100000) / Math.min(cx, cy))}"/>`
@@ -503,11 +517,12 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 					strSlideXml += '</a:avLst></a:prstGeom>'
 				}
 
-				// Option: FILL
-				strSlideXml += slideItemObj.options.fill ? genXmlColorSelection(slideItemObj.options.fill) : '<a:noFill/>'
+				if (!isPlaceholder) {
+					// Option: FILL
+					strSlideXml += slideItemObj.options.fill ? genXmlColorSelection(slideItemObj.options.fill) : '<a:noFill/>'
 
-				// shape Type: LINE: line color
-				if (slideItemObj.options.line) {
+					// shape Type: LINE: line color
+					if (slideItemObj.options.line) {
 					strSlideXml += slideItemObj.options.line.width ? `<a:ln w="${valToPts(slideItemObj.options.line.width)}">` : '<a:ln>'
 					if (slideItemObj.options.line.color) strSlideXml += genXmlColorSelection(slideItemObj.options.line)
 					if (slideItemObj.options.line.dashType) strSlideXml += `<a:prstDash val="${slideItemObj.options.line.dashType}"/>`
@@ -517,8 +532,8 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 					strSlideXml += '</a:ln>'
 				}
 
-				// EFFECTS > SHADOW: REF: @see http://officeopenxml.com/drwSp-effects.php
-				if (slideItemObj.options.shadow && slideItemObj.options.shadow.type !== 'none') {
+					// EFFECTS > SHADOW: REF: @see http://officeopenxml.com/drwSp-effects.php
+					if (slideItemObj.options.shadow && slideItemObj.options.shadow.type !== 'none') {
 					slideItemObj.options.shadow.type = slideItemObj.options.shadow.type || 'outer'
 					slideItemObj.options.shadow.blur = valToPts(slideItemObj.options.shadow.blur || 8)
 					slideItemObj.options.shadow.offset = valToPts(slideItemObj.options.shadow.offset || 4)
@@ -533,6 +548,7 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 					strSlideXml += ' </a:outerShdw>'
 					strSlideXml += '</a:effectLst>'
 				}
+				} // End if (!isPlaceholder)
 
 				/* TODO: FUTURE: Text wrapping (copied from MS-PPTX export)
 					// Commented out b/c i'm not even sure this works - current code produces text that wraps in shapes and textboxes, so...
@@ -546,7 +562,9 @@ function slideObjectToXml (slide: PresSlide | SlideLayout): string {
 				*/
 
 				// B: Close shape Properties
-				strSlideXml += '</p:spPr>'
+				if (!isPlaceholder) {
+					strSlideXml += '</p:spPr>'
+				}
 
 				// C: Add formatted text (text body "bodyPr")
 				strSlideXml += genXmlTextBody(slideItemObj)
@@ -1359,12 +1377,11 @@ export function genXmlPlaceholder (placeholderObj: ISlideObject): string {
 	if (!placeholderObj) return ''
 
 	const placeholderIdx = placeholderObj.options?._placeholderIdx ? placeholderObj.options._placeholderIdx : ''
-	const placeholderTyp = placeholderObj.options?._placeholderType ? placeholderObj.options._placeholderType : ''
-	const placeholderType: string = placeholderTyp && PLACEHOLDER_TYPES[placeholderTyp] ? (PLACEHOLDER_TYPES[placeholderTyp]).toString() : ''
+	const placeholderType = placeholderObj.options?._placeholderType ? placeholderObj.options._placeholderType : ''
 
 	return `<p:ph
 		${placeholderIdx ? ' idx="' + placeholderIdx.toString() + '"' : ''}
-		${placeholderType && PLACEHOLDER_TYPES[placeholderType] ? ` type="${placeholderType}"` : ''}
+		${placeholderType ? ` type="${placeholderType}"` : ''}
 		${placeholderObj.text && placeholderObj.text.length > 0 ? ' hasCustomPrompt="1"' : ''}
 		/>`
 }
@@ -1675,9 +1692,6 @@ export function makeXmlSlideMasterRels(slideLayouts: SlideLayout[]): string {
  * @return {string} XML
  */
 export function makeXmlSlideLayoutRel (layoutNumber: number, slideLayouts: SlideLayout[]): string {
-	// If the default layout is being generated, return the custom rel XML
-	if (slideLayouts[layoutNumber - 1] && slideLayouts[layoutNumber - 1]._name === DEF_PRES_LAYOUT_NAME) return CUSTOM_PPT_SLIDE_LAYOUT1_REL_XML
-
 	return slideObjectRelationsToXml(slideLayouts[layoutNumber - 1], [
 		{
 			target: '../slideMasters/slideMaster1.xml',

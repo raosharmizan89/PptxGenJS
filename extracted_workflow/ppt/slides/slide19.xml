@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld name="Slide 19"><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:sp><p:nvSpPr><p:cNvPr id="2" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="38"
+		 type="ftr"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="6016752" y="0"/><a:ext cx="5715000" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Section / Presentation Title / December 2025</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="3" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="12"
+		 type="sldNum"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="11411712" y="6565392"/><a:ext cx="310896" cy="219456"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>19</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="4" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		
+		 type="title"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="292608"/><a:ext cx="11247120" cy="457200"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Headline text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="5" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="13"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="5961888" y="2578608"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subheadline Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="6" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="7" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="8" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="24"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="5321808"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="9" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="10" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="11" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="25"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="5961888" y="6693408"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="12" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="13" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="14" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="34"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="9436608"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="15" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="16" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="17" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="30"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="5961888" y="10808208"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="18" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="19" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="20" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="31"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="13551408"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="21" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="21"
+		 type="pic"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="7315200" y="1828800"/><a:ext cx="3657600" cy="3657600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="22" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="16"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="822960"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Subtitle Text</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="23" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="37"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="5961888" y="14923008"/><a:ext cx="5029200" cy="914400"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Main content text for this placeholder. This is sa</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp><p:sp><p:nvSpPr><p:cNvPr id="24" name="Text 0"></p:cNvPr><p:cNvSpPr/><p:nvPr><p:ph
+		 idx="15"
+		 type="body"
+		 hasCustomPrompt="1"
+		/></p:nvPr></p:nvSpPr><p:spPr><a:xfrm><a:off x="475488" y="5669280"/><a:ext cx="11247120" cy="320040"/></a:xfrm><a:prstGeom prst="rect"><a:avLst></a:avLst></a:prstGeom><a:noFill/><a:ln></a:ln></p:spPr><p:txBody><a:bodyPr wrap="square" rtlCol="0"></a:bodyPr><a:lstStyle><a:lvl1pPr indent="0" marL="0"><a:buNone/><a:defRPr lang="en-US" dirty="0"></a:defRPr></a:lvl1pPr></a:lstStyle><a:p><a:pPr indent="0" marL="0"><a:buNone/></a:pPr><a:r><a:rPr lang="en-US" dirty="0"></a:rPr><a:t>Sample Source / Legal disclaimer / Footnote</a:t></a:r><a:endParaRPr lang="en-US" dirty="0"/></a:p></p:txBody></p:sp></p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>

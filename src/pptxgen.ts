@@ -631,9 +631,8 @@ export default class PptxGenJS implements IPresentationProps {
 				const def = CUSTOM_SLIDE_LAYOUT_DEFS[idx]
 				const relDef = CUSTOM_SLIDE_LAYOUT_RELS[idx]
 				if (def && def.xml) {
-					// Remove only broken image instances from custom layout XML (preserve placeholders)
-					const sanitizedLayout = this.removeBrokenPics(def.xml, relDef?.relsXml)
-					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, sanitizedLayout)
+					// Use embedded custom layout XML as-is (already validated and complete)
+					zip.file(`ppt/slideLayouts/slideLayout${idx + 1}.xml`, def.xml)
 					zip.file(`ppt/slideLayouts/_rels/slideLayout${idx + 1}.xml.rels`, relDef?.relsXml || genXml.makeXmlSlideLayoutRel(idx + 1, this.slideLayouts))
 				} else {
 					const genLayoutXml = genXml.makeXmlLayout(this.slideLayouts[idx])
@@ -792,15 +791,13 @@ export default class PptxGenJS implements IPresentationProps {
 				_rels: [],
 				_relsChart: [],
 				_relsMedia: [],
-				_slideNum: this.slides.length + 1,
-			}
+			_slideNum: this.slides.length + 1,
+		}
 
 		if (masterSlideName) {
 			const tmpLayout = this.slideLayouts.filter(layout => layout._name === masterSlideName)[0]
 			if (tmpLayout) slideLayout = tmpLayout
-		}
-
-		const newSlide = new Slide({
+		}		const newSlide = new Slide({
 			addSlide: this.addNewSlide,
 			getSlide: this.getSlide,
 			presLayout: this.presLayout,
@@ -871,26 +868,47 @@ export default class PptxGenJS implements IPresentationProps {
 		const propsClone = JSON.parse(JSON.stringify(props))
 		if (!propsClone.title) throw new Error('defineSlideMaster() object argument requires a `title` value. (https://gitbrent.github.io/PptxGenJS/docs/masters.html)')
 
-		const newLayout: SlideLayout = {
-			_margin: propsClone.margin || DEF_SLIDE_MARGIN_IN,
-			_name: propsClone.title,
-			_presLayout: this.presLayout,
-			_rels: [],
-			_relsChart: [],
-			_relsMedia: [],
-			_slide: null,
-			_slideNum: 1000 + this.slideLayouts.length + 1,
-			_slideNumberProps: propsClone.slideNumber || null,
-			_slideObjects: [],
-			background: propsClone.background || null,
-			bkgd: propsClone.bkgd || null,
+		// Check if a layout with this name already exists
+		const existingLayout = this.slideLayouts.find(layout => layout._name === propsClone.title)
+		
+		let newLayout: SlideLayout
+		
+		if (existingLayout) {
+			// Update existing layout instead of creating a duplicate
+			newLayout = existingLayout
+			newLayout._margin = propsClone.margin || DEF_SLIDE_MARGIN_IN
+			newLayout._slideNumberProps = propsClone.slideNumber || null
+			newLayout.background = propsClone.background || null
+			newLayout.bkgd = propsClone.bkgd || null
+			// Clear existing objects before adding new ones
+			newLayout._slideObjects = []
+		} else {
+			// Create new layout
+			newLayout = {
+				_margin: propsClone.margin || DEF_SLIDE_MARGIN_IN,
+				_name: propsClone.title,
+				_presLayout: this.presLayout,
+				_rels: [],
+				_relsChart: [],
+				_relsMedia: [],
+				_slide: null,
+				_slideNum: 1000 + this.slideLayouts.length + 1,
+				_slideNumberProps: propsClone.slideNumber || null,
+				_slideObjects: [],
+				background: propsClone.background || null,
+				bkgd: propsClone.bkgd || null,
+			}
 		}
 
 		// STEP 1: Create the Slide Master/Layout
+		console.log('BEFORE createSlideMaster, newLayout._slideObjects:', newLayout._slideObjects.length);
 		genObj.createSlideMaster(propsClone, newLayout)
+		console.log('AFTER createSlideMaster, newLayout._slideObjects:', newLayout._slideObjects.length);
 
-		// STEP 2: Add it to layout defs
-		this.slideLayouts.push(newLayout)
+		// STEP 2: Add it to layout defs (only if it's a new layout)
+		if (!existingLayout) {
+			this.slideLayouts.push(newLayout)
+		}
 
 		// STEP 3: Add background (image data/path must be captured before `exportPresentation()` is called)
 		if (propsClone.background || propsClone.bkgd) genObj.addBackgroundDefinition(propsClone.background, newLayout)

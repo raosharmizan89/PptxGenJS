@@ -1,0 +1,10 @@
+_type="text", SLIDE_OBJECT_TYPES.placeholder="placeholder", match=false
+NOT PLACEHOLDER: Adding coords for Text 0
+_type="text", SLIDE_OBJECT_TYPES.placeholder="placeholder", match=false
+NOT PLACEHOLDER: Adding coords for Text 0
+_type="text", SLIDE_OBJECT_TYPES.placeholder="placeholder", match=false
+NOT PLACEHOLDER: Adding coords for Text 0
+_type="text", SLIDE_OBJECT_TYPES.placeholder="placeholder", match=false
+NOT PLACEHOLDER: Adding coords for Text 0
+_type="text", SLIDE_OBJECT_TYPES.placeholder="placeholder", match=false
+NOT PLACEHOLDER: Adding coords for Text 0

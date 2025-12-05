@@ -66,7 +66,7 @@ export function createSlideMaster(props: SlideMasterProps, target: SlideLayout):
 	// STEP 2: Add all Slide Master objects in the order they were given
 	if (props.objects && Array.isArray(props.objects) && props.objects.length > 0) {
 		props.objects.forEach((object, idx) => {
-			const key = Object.keys(object)[0]
+			const key = Object.keys(object)[0];
 			const tgt = target as PresSlide
 			if (MASTER_OBJECTS[key] && key === 'chart') addChartDefinition(tgt, object[key].type, object[key].data, object[key].opts)
 			else if (MASTER_OBJECTS[key] && key === 'image') addImageDefinition(tgt, object[key])
@@ -79,7 +79,10 @@ export function createSlideMaster(props: SlideMasterProps, target: SlideLayout):
 				delete object[key].options.name // remap name for earier handling internally
 				object[key].options._placeholderType = object[key].options.type
 				delete object[key].options.type // remap name for earier handling internally
-				object[key].options._placeholderIdx = 100 + idx
+				// Use existing _placeholderIdx if provided (including explicitly null for no index), otherwise auto-generate
+				if (!('_placeholderIdx' in object[key].options)) {
+					object[key].options._placeholderIdx = 100 + idx
+				}
 				addTextDefinition(tgt, [{ text: object[key].text }], object[key].options, true)
 				// TODO: ISSUE#599 - only text is suported now (add more below)
 				// else if (object[key].image) addImageDefinition(tgt, object[key].image)
@@ -1023,7 +1026,18 @@ export function addTextDefinition(target: PresSlide, text: TextProps[], opts: Te
 				const placeHold = target._slideLayout._slideObjects.filter(
 					item => item._type === 'placeholder' && item.options && item.options.placeholder && item.options.placeholder === itemOpts.placeholder
 				)[0]
-				if (placeHold?.options) itemOpts = { ...itemOpts, ...placeHold.options }
+				if (placeHold?.options) {
+					// PATCH: Copy layout options but exclude coordinates (they should inherit from layout)
+					const { x, y, w, h, ...layoutOptions } = placeHold.options
+					itemOpts = { ...itemOpts, ...layoutOptions }
+					// PATCH: Preserve placeholder type and index from layout
+					if (placeHold.options._placeholderType) {
+						itemOpts._placeholderType = placeHold.options._placeholderType
+					}
+					if (placeHold.options._placeholderIdx !== undefined) {
+						itemOpts._placeholderIdx = placeHold.options._placeholderIdx
+					}
+				}
 			}
 
 			// A.4: Other options
@@ -1125,7 +1139,7 @@ export function addTextDefinition(target: PresSlide, text: TextProps[], opts: Te
 	createHyperlinkRels(target, newObject.text || '')
 
 	// LAST: Add object to Slide
-	target._slideObjects.push(newObject)
+	target._slideObjects.push(newObject);
 }
 
 /**
@@ -1140,7 +1154,7 @@ export function addPlaceholdersToSlideLayouts(slide: PresSlide): void {
 			// NOTE: Check to ensure a placeholder does not already exist on the Slide
 			// They are created when they have been populated with text (ex: `slide.addText('Hi', { placeholder:'title' });`)
 			if (slide._slideObjects.filter(slideObj => slideObj.options && slideObj.options.placeholder === slideLayoutObj.options.placeholder).length === 0) {
-				addTextDefinition(slide, [{ text: '' }], slideLayoutObj.options, false)
+				addTextDefinition(slide, [{ text: '' }], slideLayoutObj.options, true)
 			}
 		}
 	})

@@ -1,0 +1,1922 @@
+[
+  {
+    "slide_num": 1,
+    "layout_num": 1,
+    "layout_name": "Content - no subtitle",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "1"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline Text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "18",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      }
+    ]
+  },
+  {
+    "slide_num": 2,
+    "layout_num": 2,
+    "layout_name": "Content w/Sub-headline",
+    "placeholder_count": 6,
+    "placeholders": [
+      {
+        "idx": "20",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "2"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 3,
+    "layout_num": 4,
+    "layout_name": "Two Content",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "22",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "3"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 4,
+    "layout_num": 5,
+    "layout_name": "Two Content + Subtitles ",
+    "placeholder_count": 9,
+    "placeholders": [
+      {
+        "idx": "24",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "4"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "22",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 5,
+    "layout_num": 6,
+    "layout_name": "Content 4 Columns",
+    "placeholder_count": 13,
+    "placeholders": [
+      {
+        "idx": "31",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "5"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "26",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "27",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 6,
+    "layout_num": 7,
+    "layout_name": "Content 5 Columns",
+    "placeholder_count": 15,
+    "placeholders": [
+      {
+        "idx": "31",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "6"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "26",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "27",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "28",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 7,
+    "layout_num": 8,
+    "layout_name": "Content with Sidebar",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "23",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "7"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "22",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "2",
+        "type": "body",
+        "text": "Sidebar text for this placeholder. "
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 8,
+    "layout_num": 9,
+    "layout_name": "Title Only",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "20",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "8"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 9,
+    "layout_num": 10,
+    "layout_name": "Blank",
+    "placeholder_count": 2,
+    "placeholders": [
+      {
+        "idx": "20",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "9"
+      }
+    ]
+  },
+  {
+    "slide_num": 10,
+    "layout_num": 11,
+    "layout_name": "Content + Image/Icon",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "24",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "10"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "23",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "17",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 11,
+    "layout_num": 12,
+    "layout_name": "Content + Photo White",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "24",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "11"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "23",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 12,
+    "layout_num": 13,
+    "layout_name": "Content + Photo Black",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "23",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "12"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "22",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 13,
+    "layout_num": 14,
+    "layout_name": "Content + Photo Blue",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "23",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "13"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "22",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 14,
+    "layout_num": 16,
+    "layout_name": "Icons 3 Columns Vertical",
+    "placeholder_count": 14,
+    "placeholders": [
+      {
+        "idx": "31",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "14"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "26",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 15,
+    "layout_num": 17,
+    "layout_name": "Icons 3 Columns Horizontal",
+    "placeholder_count": 14,
+    "placeholders": [
+      {
+        "idx": "28",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "15"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "29",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "30",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "31",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "32",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 16,
+    "layout_num": 18,
+    "layout_name": "Icons 4 Columns + Content",
+    "placeholder_count": 18,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "16"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "33",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "41",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "29",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "36",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "37",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "38",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "39",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "40",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "27",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 17,
+    "layout_num": 19,
+    "layout_name": "Icons 4 Columns + Content Black",
+    "placeholder_count": 18,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "17"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "33",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "27",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "29",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "30",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "31",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "32",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 18,
+    "layout_num": 20,
+    "layout_name": "Icons 4 Columns + Content Blue",
+    "placeholder_count": 18,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "18"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "33",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "27",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "29",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "30",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "31",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "23",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "32",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 19,
+    "layout_num": 21,
+    "layout_name": "Icons 2 x 3 Columns",
+    "placeholder_count": 23,
+    "placeholders": [
+      {
+        "idx": "38",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "19"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "24",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "22",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "25",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "33",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "32",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "34",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "28",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "26",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "30",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "29",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "27",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "31",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "36",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "35",
+        "type": "body",
+        "text": "Subtitle Text"
+      },
+      {
+        "idx": "37",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 20,
+    "layout_num": 23,
+    "layout_name": "Content + Chart/Table 1",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "20"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "36",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "37",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 21,
+    "layout_num": 24,
+    "layout_name": "Chart - Horizontal 2",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "19",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "20",
+        "type": "sldNum",
+        "text": "21"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Statement text for this placeholder."
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 22,
+    "layout_num": 25,
+    "layout_name": "Chart + Statement 2",
+    "placeholder_count": 8,
+    "placeholders": [
+      {
+        "idx": "19",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "20",
+        "type": "sldNum",
+        "text": "22"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Statement text for this placeholder."
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 23,
+    "layout_num": 26,
+    "layout_name": "Chart + Statement 3",
+    "placeholder_count": 8,
+    "placeholders": [
+      {
+        "idx": "19",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "20",
+        "type": "sldNum",
+        "text": "23"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline Text"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Statement text for this placeholder."
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 24,
+    "layout_num": 28,
+    "layout_name": "Statement Photo",
+    "placeholder_count": 3,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "24"
+      },
+      {
+        "idx": "13",
+        "type": "pic",
+        "text": ""
+      },
+      {
+        "idx": "4294967295",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      }
+    ]
+  },
+  {
+    "slide_num": 25,
+    "layout_num": 29,
+    "layout_name": "Statement Black",
+    "placeholder_count": 2,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "25"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Statement text for this placeholder"
+      }
+    ]
+  },
+  {
+    "slide_num": 26,
+    "layout_num": 30,
+    "layout_name": "Statement White",
+    "placeholder_count": 2,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "26"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Statement text for this placeholder"
+      }
+    ]
+  },
+  {
+    "slide_num": 27,
+    "layout_num": 32,
+    "layout_name": "Section Header",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "16",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "27"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Divider or section header text for this placeholde"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 28,
+    "layout_num": 33,
+    "layout_name": "Divider 4 Photo",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "16",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "28"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Divider or section header text for this placeholde"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 29,
+    "layout_num": 34,
+    "layout_name": "Divider 1",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "11",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "29"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Divider or section header text for this placeholde"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 30,
+    "layout_num": 35,
+    "layout_name": "Divider 2",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "11",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "30"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Divider or section header text for this placeholde"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      }
+    ]
+  },
+  {
+    "slide_num": 31,
+    "layout_num": 37,
+    "layout_name": "Two Placeholders",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "31"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 32,
+    "layout_num": 38,
+    "layout_name": "Three Placeholders 1",
+    "placeholder_count": 8,
+    "placeholders": [
+      {
+        "idx": "21",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "32"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 33,
+    "layout_num": 39,
+    "layout_name": "Three Placeholders 2",
+    "placeholder_count": 8,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "33"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 34,
+    "layout_num": 40,
+    "layout_name": "Three Placeholders 3",
+    "placeholder_count": 8,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "34"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 35,
+    "layout_num": 41,
+    "layout_name": "Four Placeholders",
+    "placeholder_count": 9,
+    "placeholders": [
+      {
+        "idx": "35",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "35"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Headline text"
+      },
+      {
+        "idx": "13",
+        "type": "body",
+        "text": "Subheadline text"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "19",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "Main content text for this placeholder. This is sa"
+      },
+      {
+        "idx": "15",
+        "type": "body",
+        "text": "Sample Source / Legal disclaimer / Footnote"
+      }
+    ]
+  },
+  {
+    "slide_num": 36,
+    "layout_num": 43,
+    "layout_name": "Title Image Bottom",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Sample Title Text"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": "Sample Subtitle Text"
+      },
+      {
+        "idx": "16",
+        "type": "body",
+        "text": "John Doe / Department / Title"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "December 2025"
+      },
+      {
+        "idx": "21",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 37,
+    "layout_num": 44,
+    "layout_name": "Title White - reports and presentations (hIHS)",
+    "placeholder_count": 7,
+    "placeholders": [
+      {
+        "idx": "19",
+        "type": "body",
+        "text": ""
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Sample Title Text"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": "Sample Subtitle Text"
+      },
+      {
+        "idx": "20",
+        "type": "body",
+        "text": "John Doe / Department / Title"
+      },
+      {
+        "idx": "18",
+        "type": "body",
+        "text": "REPORT TYPE"
+      },
+      {
+        "idx": "21",
+        "type": "body",
+        "text": "Optional Content"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "December 2025"
+      }
+    ]
+  },
+  {
+    "slide_num": 38,
+    "layout_num": 46,
+    "layout_name": "Divider Photo 2",
+    "placeholder_count": 5,
+    "placeholders": [
+      {
+        "idx": "16",
+        "type": "ftr",
+        "text": "Section / Presentation Title / December 2025"
+      },
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "38"
+      },
+      {
+        "idx": null,
+        "type": "title",
+        "text": "Table of contents"
+      },
+      {
+        "idx": "1",
+        "type": "body",
+        "text": "Content 1Content 2Content 3"
+      },
+      {
+        "idx": "15",
+        "type": "pic",
+        "text": ""
+      }
+    ]
+  },
+  {
+    "slide_num": 39,
+    "layout_num": 47,
+    "layout_name": "Agenda - presentations",
+    "placeholder_count": 2,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "39"
+      },
+      {
+        "idx": "14",
+        "type": "body",
+        "text": "Content 1Content 2Content 3"
+      }
+    ]
+  },
+  {
+    "slide_num": 40,
+    "layout_num": 48,
+    "layout_name": "TOC - reports",
+    "placeholder_count": 2,
+    "placeholders": [
+      {
+        "idx": "12",
+        "type": "sldNum",
+        "text": "40"
+      },
+      {
+        "idx": "17",
+        "type": "body",
+        "text": "Content 1Content 2Content 3"
+      }
+    ]
+  }
+]

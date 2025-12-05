@@ -323,6 +323,7 @@ function getLayoutForContent(slideData) {
     ],
 });
 
+
 pptx.defineSlideMaster({
     title: "Title Image Bottom",
     background: { color: colors.black},
@@ -3622,8 +3623,10 @@ pptx.defineSlideMaster({
 // ====================
 
 // DEBUG: Log all available slide layouts
-console.log('Available slide layouts:', pptx.slideLayouts.map(l => l._name));
-console.log('Total layouts:', pptx.slideLayouts.length);
+// DEBUG: Check a specific layout's _slideObjects
+const testLayout = pptx.slideLayouts.find(l => l._name === 'Title White - reports and presentations (hIHS)');
+const testLayoutIndex = pptx.slideLayouts.findIndex(l => l._name === 'Title White - reports and presentations (hIHS)');
+const allMatchingLayouts = pptx.slideLayouts.filter(l => l._name === 'Title White - reports and presentations (hIHS)');
 
 const slide1Data = {
     title: "Data Center Investment Moves Macro Needle",
@@ -3662,6 +3665,11 @@ console.log('Slide1 object properties:', Object.keys(slide1).slice(0, 20));
 // Try to find layout name in slide object
 if (slide1._slideLayout) {
     console.log('Slide1 created with layout:', slide1._slideLayout._name);
+    console.log('Slide1 layout has _slideObjects:', !!slide1._slideLayout._slideObjects);
+    if (slide1._slideLayout._slideObjects) {
+        console.log('Layout objects count:', slide1._slideLayout._slideObjects.length);
+        console.log('Placeholder objects:', slide1._slideLayout._slideObjects.filter(obj => obj._type === 'placeholder').map(obj => obj.options?.placeholder || obj.options?.name));
+    }
 } else if (slide1.slideLayout) {
     console.log('Slide1 created with layout:', slide1.slideLayout._name);
 } else {
